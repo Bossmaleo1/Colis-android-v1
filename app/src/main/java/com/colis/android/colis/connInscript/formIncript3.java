@@ -151,22 +151,22 @@ public class formIncript3 extends AppCompatActivity {
                             Toast.makeText(formIncript3.this,"Une erreur au niveau du serveur viens de survenir ",Toast.LENGTH_LONG).show();
                         }else if(error instanceof NetworkError)
                         {
-                            Toast.makeText(formIncript3.this,"Une erreur  du rÃ©seau viens de survenir ",Toast.LENGTH_LONG).show();
+                            Toast.makeText(formIncript3.this,"Une erreur  du réseau viens de survenir ",Toast.LENGTH_LONG).show();
                         }else if(error instanceof AuthFailureError)
                         {
-                            Toast.makeText(formIncript3.this,"Une erreur d'authentification rÃ©seau viens de survenir ",Toast.LENGTH_LONG).show();
+                            Toast.makeText(formIncript3.this,"Une erreur d'authentification réseau viens de survenir ",Toast.LENGTH_LONG).show();
                         }else if(error instanceof ParseError)
                         {
-                            Toast.makeText(formIncript3.this,"Une erreur  du rÃ©seau viens de survenir ",Toast.LENGTH_LONG).show();
+                            Toast.makeText(formIncript3.this,"Une erreur  du réseau viens de survenir ",Toast.LENGTH_LONG).show();
                         }else if(error instanceof NoConnectionError)
                         {
-                            Toast.makeText(formIncript3.this,"Une erreur  du rÃ©seau viens de survenir, veuillez revoir votre connexion internet ",Toast.LENGTH_LONG).show();
+                            Toast.makeText(formIncript3.this,"Une erreur  du réseau viens de survenir, veuillez revoir votre connexion internet ",Toast.LENGTH_LONG).show();
                         }else if(error instanceof TimeoutError)
                         {
                             Toast.makeText(formIncript3.this,"Le delai d'attente viens d'expirer,veuillez revoir votre connexion internet ! ",Toast.LENGTH_LONG).show();
                         }else
                         {
-                            Toast.makeText(formIncript3.this,"Une erreur  du rÃ©seau viens de survenir ",Toast.LENGTH_LONG).show();
+                            Toast.makeText(formIncript3.this,"Une erreur  du réseau viens de survenir ",Toast.LENGTH_LONG).show();
                         }
                     }
                 }){
@@ -219,7 +219,7 @@ public class formIncript3 extends AppCompatActivity {
         }
     };
 
-    //ajouter la boÃ®te de dialogue Calendrier
+    //ajouter la boîte de dialogue Calendrier
     public void addListenerOnButton() {
 
 

@@ -1,18 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-tools:context=".activities.BaseActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <item
-            android:id="@+id/supprimer_1_poste"
-            android:title="Supprimer ce poste" />
 
-        <item
-            android:id="@+id/modifier_1_poste"
-            android:title="Modifier ce poste" />
+    <item
+        android:id="@+id/add_picture"
+        android:title="@string/inscript"
+        android:icon="@drawable/baseline_add_a_photo_black_48"
+        app:showAsAction="ifRoom" />
 
-        <item
-            android:id="@+id/signaler_1_probleme"
-            android:title="Signaler un probleme" />
+    <item
+        android:id="@+id/insert_picture"
+        android:title="@string/inscript"
+        android:icon="@drawable/baseline_add_photo_alternate_black_48"
+        app:showAsAction="ifRoom" />
+
+
+
+    <item
+        android:id="@+id/send"
+        android:title="@string/inscript"
+        android:icon="@drawable/ic_send_black_48dp"
+        app:showAsAction="ifRoom" />
 
 </menu>
