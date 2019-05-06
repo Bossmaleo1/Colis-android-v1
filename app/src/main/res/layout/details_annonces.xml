@@ -1,0 +1,465 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </android.support.design.widget.AppBarLayout>
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/block_layout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_below="@+id/appbarlayout"
+            android:background="@color/graycolor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/graycolor"
+                android:padding="10dp"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/section_block1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_menu_message_public"
+                    android:layout_gravity="center"
+                    >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/block1"
+                        >
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/iconetmachin"
+                            >
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/icon"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="4dp"
+                                />
+
+                            <LinearLayout
+                                android:id="@+id/block"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_toRightOf="@id/icon"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="4dp"
+                                >
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:id="@+id/title"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textStyle="bold"
+                                    />
+
+                                <android.support.v7.widget.AppCompatTextView
+                                    android:id="@+id/title1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textSize="10dp"
+                                    android:text="Test"
+                                    />
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+
+                        <View
+                            android:layout_below="@+id/iconetmachin"
+                            android:id="@+id/viewbis3"
+                            android:layout_width="match_parent"
+                            android:layout_height="6dip"
+                            android:layout_marginLeft="4dip"
+                            android:layout_marginRight="4dip"
+                            android:background="@android:color/transparent"
+                            />
+
+
+                        <View
+                            android:layout_below="@+id/viewbis3"
+                            android:id="@+id/ville_depart"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:background="@color/graycolor"
+                            />
+
+
+
+                        <LinearLayout
+                            android:id="@+id/ville_depart_block"
+                            android:layout_below="@+id/ville_depart"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_flight_takeoff_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/contenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text="Test"
+                                />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/ville_arrivee_block"
+                            android:layout_below="@+id/ville_depart_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_flight_land_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/contenu_ville_arrivee_block"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text="Test"
+                                />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/heure_depart_block"
+                            android:layout_below="@+id/ville_arrivee_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_date_range_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/contenu_heure_depart"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text="Test"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/heure_arrivee_block"
+                            android:layout_below="@+id/heure_depart_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_euro_symbol_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/contenu_heure_arrivee"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text="Test"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/heure_depart_vrai__block"
+                            android:layout_below="@+id/heure_arrivee_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_access_alarms_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/contenu_heure_depart_vrai"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text="Test"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/heure_arrivee_vrai_block"
+                            android:layout_below="@+id/heure_depart_vrai__block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_access_alarms_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/contenu_heure_arrivee_vrai"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text="Test"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/poids_vrai_block"
+                            android:layout_below="@+id/heure_arrivee_vrai_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_local_parking_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/poids_vrai"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text="Test"
+                                />
+
+
+                        </LinearLayout>
+
+
+
+                        <View
+                            android:layout_below="@+id/poids_vrai_block"
+                            android:id="@+id/trace_separation"
+                            android:layout_width="match_parent"
+                            android:layout_height="16dip"
+                            android:layout_marginLeft="4dip"
+                            android:layout_marginRight="4dip"
+                            android:background="@android:color/white"
+                            />
+
+                        <View
+                            android:layout_below="@+id/trace_separation"
+                            android:id="@+id/viewbis18"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dip"
+                            android:background="@color/graycolor"
+                            />
+
+                        <View
+                            android:layout_below="@+id/viewbis18"
+                            android:id="@+id/trace_separation2"
+                            android:layout_width="match_parent"
+                            android:layout_height="16dip"
+                            android:layout_marginLeft="4dip"
+                            android:layout_marginRight="4dip"
+                            android:background="@android:color/white"
+                            />
+
+
+                    </RelativeLayout>
+
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_below="@+id/section_block1"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_menu_message_public"
+                    android:layout_gravity="center"
+                    >
+
+                    <View
+                        android:id="@+id/espace_details_annonceur1"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dip"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:background="@android:color/white"
+                        />
+
+                    <View
+                        android:id="@+id/espace_details_annonceur2"
+                        android:layout_below="@+id/espace_details_annonceur1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/graycolor"
+                        />
+
+                    <View
+                        android:id="@+id/espace_details_annonceur3"
+                        android:layout_below="@+id/espace_details_annonceur2"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dip"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:background="@android:color/white"
+                        />
+
+                    <View
+                        android:id="@+id/espace_details_annonceur4"
+                        android:layout_below="@+id/espace_details_annonceur3"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dip"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:background="@android:color/white"
+                        />
+
+                    <View
+                        android:id="@+id/espace_details_annonceur5"
+                        android:layout_below="@+id/espace_details_annonceur4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:background="@color/graycolor"
+                        />
+
+                    <View
+                        android:id="@+id/espace_details_annonceur6"
+                        android:layout_below="@+id/espace_details_annonceur5"
+                        android:layout_width="match_parent"
+                        android:layout_height="16dip"
+                        android:layout_marginLeft="4dip"
+                        android:layout_marginRight="4dip"
+                        android:background="@android:color/white"
+                        />
+
+                </RelativeLayout>
+
+
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

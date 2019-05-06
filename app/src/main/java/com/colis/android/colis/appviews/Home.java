@@ -1,7 +1,6 @@
 package com.colis.android.colis.appviews;
 
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -19,7 +18,6 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.colis.android.colis.R;
 import com.colis.android.colis.fragments.Accueil;
@@ -52,42 +50,31 @@ public class Home extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         toolbar =  findViewById(R.id.toolbar);
         res = getResources();
-        /*setSupportActionBar(toolbar);
-        Drawable maleoIcon = res.getDrawable(R.drawable.colis_1);
-        maleoIcon.mutate().setColorFilter(Color.rgb(255, 255, 255), PorterDuff.Mode.SRC_IN);
-        getSupportActionBar().setTitle("");
-        this.getSupportActionBar().setHomeAsUpIndicator(maleoIcon);
-        getSupportActionBar().setTitle("Colis");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        toolbar.setTitleTextColor(res.getColor(R.color.graydark));
-        toolbar.setSubtitleTextColor(res.getColor(R.color.graydark));*/
         setSupportActionBar(toolbar);
-        //Drawable maleoIcon = res.getDrawable(R.drawable.colis_1_1);
-        //maleoIcon.mutate().setColorFilter(Color.rgb(0, 0, 0), PorterDuff.Mode.SRC_IN);
-        //this.getSupportActionBar().setHomeAsUpIndicator(maleoIcon);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        //this.getSupportActionBar().setHomeActionContentDescription("Colis");
         this.getSupportActionBar().setTitle("Colis");
         navigation =  findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         menu = navigation.getMenu();
-        newIcon_home = res.getDrawable(R.drawable.ic_home_black_24dp);
+        newIcon_home = res.getDrawable(R.drawable.baseline_flight_black_24);
         newIcon_notification = res.getDrawable(R.drawable.ic_notifications_black_24dp);
         newIcon_search = res.getDrawable(R.drawable.baseline_search_black_24);
-        newIcon_home.mutate().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-        menu.findItem(R.id.home).setIcon(newIcon_home);
-        menu_accueil = "Accueil";
+
+        newIcon_search.mutate().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        menu.findItem(R.id.recherche).setIcon(newIcon_search);
+
+        menu_accueil = "Ajouter Annonce";
         menu_recherche = "Recherche";
         menu_notification = "Notifications";
         accueil_title_text = new SpannableString(menu_accueil);
         recherche_title_text = new SpannableString(menu_recherche);
         notification_text = new SpannableString(menu_notification);
-        accueil_title_text.setSpan(new ForegroundColorSpan(res.getColor(R.color.colorPrimary)),0,menu_accueil.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        recherche_title_text.setSpan(new ForegroundColorSpan(res.getColor(R.color.colorPrimary)),0,menu_recherche.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
        /* recherche_title_text.setSpan(new ForegroundColorSpan(res.getColor(R.color.graycolor)),0,menu_accueil.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         notification_text.setSpan(new ForegroundColorSpan(res.getColor(R.color.graycolor)),0,menu_accueil.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);*/
-        menu.findItem(R.id.home).setTitle(accueil_title_text);
-        //loadFragment(new Accueil());
+        menu.findItem(R.id.recherche).setTitle(recherche_title_text);
+        loadFragment(new Recherche());
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -203,5 +190,15 @@ public class Home extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

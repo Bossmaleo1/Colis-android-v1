@@ -67,64 +67,11 @@ public class accueil_adapter extends RecyclerView.Adapter<accueil_adapter.MyView
         final AnnonceItem current = data.get(position);
         holder.title.setText(current.getNameMembreProb());
         holder.title1.setText(current.getDatetime());
-        holder.contenu.setText(current.getContenu());
-        holder.commentnumber.setText(current.getCommentnumber());
-        if(!current.getImageID().equals("null")) {
-            Glide.with(current.getContext1())
-                    .load(Const.dns+"/uploads/photo_de_profil/" + current.getImageID())
-                    .into(holder.picture);
-        }else
-        {
-            holder.picture.setImageResource(R.drawable.ic_profile_colorier);
-        }
-        holder.commenticon.setImageResource(current.getIconComment());
-        holder.commentblock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Intent intent = new Intent(context, AfficheCommentairePublic.class);
-                intent.putExtra("nom",current.getID());
-                context.startActivity(intent);*/
-                //context.startActivities(intent);
-                //startActivity(intent);
-                //Toast.makeText(context,"Voici l'ID de ce comment : "+current.getID(),Toast.LENGTH_LONG).show();
-            }
-        });
-
-        holder.menuderoulant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu dropDownMenu = new PopupMenu(context, holder.menuderoulant);
-                dropDownMenu.getMenuInflater().inflate(R.menu.drop_down_menu, dropDownMenu.getMenu());
-                dropDownMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        Toast.makeText(context, "You have clicked " + menuItem.getTitle(), Toast.LENGTH_LONG).show();
-                        return true;
-                    }
-                });
-                dropDownMenu.show();
-            }
-        });
-        //on test l'affichage ou non affichage des images des postes
-        if (current.getEtat_photo_status().equals("block")) {
-            holder.photo_du_poste.setVisibility(View.VISIBLE);
-            //le code xxl pour setter l'image dans le background de mon relativelayout
-            Glide.with(context).load(current.getStatus_photo()).asBitmap().into(new SimpleTarget<Bitmap>(200, 200) {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    Drawable drawable = new BitmapDrawable(context.getResources(), resource);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        holder.photo_du_poste.setMinimumWidth(1024);
-                        holder.photo_du_poste.setMinimumHeight(768);
-                        holder.photo_du_poste.setBackground(drawable);
-                    }
-                }
-            });
-        }else if(current.getEtat_photo_status().equals("none")) {
-            holder.photo_du_poste.setVisibility(View.GONE);
-        }
-        //holder.icononline.setColorFilter(context.getResources().getColor(current.getColor1()));
+        holder.picture.setImageResource(R.drawable.ic_profile_colorier);
+        holder.depart.setText("Paris (France (Roissy Charle degaulle,RCG))");
+        holder.arrivee.setText("Brazzaville (Congo (MAYA-MAYA,BZV))");
+        holder.Prix.setText("25 euros/Kg");
+        holder.dateannonce.setText("27-07-2019");
     }
 
 
@@ -142,27 +89,22 @@ public class accueil_adapter extends RecyclerView.Adapter<accueil_adapter.MyView
     {
         TextView title;
         TextView title1;
-        TextView contenu;
-        TextView commentnumber;
+        TextView depart;
+        TextView arrivee;
+        TextView dateannonce;
+        TextView Prix;
         ImageView picture;
-        ImageView commenticon;
-        LinearLayout commentblock;
-        ImageView menuderoulant;
-        RelativeLayout photo_du_poste;
-        ImageView monbackground;
 
         public MyViewHolder(View itemView)
         {
             super(itemView);
-            title = (TextView)itemView.findViewById(R.id.title);
-            title1 = (TextView)itemView.findViewById(R.id.title1);
-            contenu =  itemView.findViewById(R.id.contenu);
-            commentnumber = (TextView) itemView.findViewById(R.id.contenucomment);
-            picture = (ImageView) itemView.findViewById(R.id.icon);
-            commenticon = (ImageView) itemView.findViewById(R.id.commenticon);
-            commentblock = (LinearLayout) itemView.findViewById(R.id.commentblock);
-            menuderoulant = (ImageView) itemView.findViewById(R.id.menu_deroulant);
-            photo_du_poste = (RelativeLayout) itemView.findViewById(R.id.photo_du_poste);
+            title = itemView.findViewById(R.id.title);
+            title1 = itemView.findViewById(R.id.title1);
+            depart =  itemView.findViewById(R.id.contenu);
+            arrivee =  itemView.findViewById(R.id.contenu_ville_arrivee_block);
+            dateannonce = itemView.findViewById(R.id.contenu_heure_depart);
+            Prix = itemView.findViewById(R.id.contenu_heure_arrivee);
+            picture = itemView.findViewById(R.id.icon);
         }
     }
 

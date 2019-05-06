@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/graycolor"
-        android:padding="5dp"
+        android:padding="10dp"
         >
 
         <RelativeLayout
@@ -79,187 +79,174 @@
                     android:background="@android:color/transparent"
                     />
 
-                <RelativeLayout
-                    android:id="@+id/photo_du_poste"
+
+                <View
                     android:layout_below="@+id/viewbis3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/photo"
-                    >
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_below="@+id/photo_du_poste"
-                    android:id="@+id/viewbis3_mou_baka"
-                    android:layout_width="match_parent"
-                    android:layout_height="6dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@android:color/transparent"
-                    />
-
-
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/contenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/viewbis3_mou_baka"
-                    android:layout_marginLeft="10dp"
-
-                    emojicon:emojiconSize="28sp"
-                    />
-
-
-
-
-                <View
-                    android:layout_below="@+id/contenu"
-                    android:id="@+id/viewbis1"
-                    android:layout_width="match_parent"
-                    android:layout_height="12dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@android:color/transparent"
-                    />
-
-
-
-                <View
-                    android:layout_below="@+id/viewbis1"
-                    android:id="@+id/viewbis"
+                    android:id="@+id/ville_depart"
                     android:layout_width="match_parent"
                     android:layout_height="1dip"
-                    android:background="?android:attr/dividerHorizontal"
-
+                    android:background="@color/graycolor"
                     />
 
 
-                <View
-                    android:layout_below="@+id/viewbis"
-                    android:id="@+id/viewbis6"
-                    android:layout_width="match_parent"
-                    android:layout_height="6dip"
-                    android:layout_marginLeft="4dip"
-                    android:layout_marginRight="4dip"
-                    android:background="@android:color/transparent"
-                    />
 
                 <LinearLayout
-                    android:id="@+id/mondernierblock"
-                    android:layout_below="@+id/viewbis6"
+                    android:id="@+id/ville_depart_block"
+                    android:layout_below="@+id/ville_depart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
                     >
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@drawable/selector_message_public_icon_item"
-                        android:id="@+id/commentblock"
-                        >
-                        <ImageView
-                            android:id="@+id/commenticon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:tint="@color/primarygraydark"
-                            />
-
-
-                        <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/contenucomment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            />
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginLeft="10dp"
-                        >
-
-                        <ImageView
-                            android:id="@+id/icon_jaime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_thumb_up_alt_black_24"
-                            android:tint="@color/primarygraydark"
-                            />
-
-
-                        <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/nombre_de_jaime"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:layout_marginLeft="5dp"
-                            />
-
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginLeft="10dp"
-                        >
-
-                        <ImageView
-                            android:id="@+id/icon_jaimepas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_thumb_down_alt_black_24"
-                            android:tint="@color/primarygraydark"
-                            />
-
-
-                        <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/nombre_de_jaimepas"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:layout_marginLeft="5dp"
-                            />
-
-
-                    </LinearLayout>
-
                     <ImageView
-                        android:id="@+id/menu_deroulant"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_arrow_drop_down_circle_black_24"
-                        android:layout_marginLeft="5dp"
-                        android:tint="@color/primarygraydark"
+                        android:src="@drawable/baseline_flight_takeoff_black_24"
+                        android:tint="@color/colorPrimary"
+                        android:layout_gravity="center"
                         />
+
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/contenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        emojicon:emojiconSize="28sp"
+                        />
+
 
                 </LinearLayout>
 
 
-                <View
-                    android:layout_below="@+id/mondernierblock"
-                    android:id="@+id/viewbis18"
+                <LinearLayout
+                    android:id="@+id/ville_arrivee_block"
+                    android:layout_below="@+id/ville_depart_block"
                     android:layout_width="match_parent"
-                    android:layout_height="6dip"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_flight_land_black_24"
+                        android:tint="@color/colorPrimary"
+                        android:layout_gravity="center"
+                        />
+
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/contenu_ville_arrivee_block"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        emojicon:emojiconSize="28sp"
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/heure_depart_block"
+                    android:layout_below="@+id/ville_arrivee_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_date_range_black_24"
+                        android:tint="@color/colorPrimary"
+                        android:layout_gravity="center"
+                        />
+
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/contenu_heure_depart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        emojicon:emojiconSize="28sp"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/heure_arrivee_block"
+                    android:layout_below="@+id/heure_depart_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_euro_symbol_black_24"
+                        android:tint="@color/colorPrimary"
+                        android:layout_gravity="center"
+                        />
+
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/contenu_heure_arrivee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        emojicon:emojiconSize="28sp"
+                        />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_below="@+id/heure_arrivee_block"
+                    android:id="@+id/trace_separation"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dip"
                     android:layout_marginLeft="4dip"
                     android:layout_marginRight="4dip"
-                    android:background="@android:color/transparent"
+                    android:background="@android:color/white"
                     />
 
+                <View
+                    android:layout_below="@+id/trace_separation"
+                    android:id="@+id/viewbis18"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/graycolor"
+                    />
+
+                <View
+                    android:layout_below="@+id/viewbis18"
+                    android:id="@+id/trace_separation2"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@android:color/white"
+                    />
 
 
             </RelativeLayout>
