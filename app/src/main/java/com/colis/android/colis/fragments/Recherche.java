@@ -35,8 +35,12 @@ public class Recherche extends Fragment {
     private EditText depart;
     private EditText arrivee;
     public static final int REQUEST_CODE = 11;
+    public static final int REQUEST_CODE_DEPART = 12;
+    public static final int REQUEST_CODE_ARRIVEE = 13;
     String selectedDate;
     private OnFragmentInteractionListener mListener;
+    private int idaeroportdepart;
+    private int idaeroportarrivee;
 
     public static Recherche newInstance() {
         Recherche fragment = new Recherche();
@@ -69,7 +73,8 @@ public class Recherche extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
-                startActivity(intent);
+                intent.putExtra("title","Ville depart");
+                startActivityForResult(intent, REQUEST_CODE_DEPART);
             }
         });
 
@@ -77,7 +82,8 @@ public class Recherche extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
-                startActivity(intent);
+                intent.putExtra("title","Ville d'arrivee");
+                startActivityForResult(intent, REQUEST_CODE_ARRIVEE);
             }
         });
 
@@ -86,7 +92,8 @@ public class Recherche extends Fragment {
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
                     Intent intent = new Intent(getActivity(), SearchTown.class);
-                    startActivity(intent);
+                    intent.putExtra("title","Ville depart");
+                    startActivityForResult(intent, REQUEST_CODE_DEPART);
                 }
             }
         });
@@ -96,7 +103,8 @@ public class Recherche extends Fragment {
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
                     Intent intent = new Intent(getActivity(), SearchTown.class);
-                    startActivity(intent);
+                    intent.putExtra("title","Ville d'arrivee");
+                    startActivityForResult(intent, REQUEST_CODE_ARRIVEE);
                 }
             }
         });
@@ -141,6 +149,14 @@ public class Recherche extends Fragment {
             selectedDate = data.getStringExtra("selectedDate");
             // set the value of the editText
             dateannonce.setText(selectedDate);
+        } else if(requestCode == REQUEST_CODE_ARRIVEE && resultCode == Activity.RESULT_OK) {
+
+            arrivee.setText(data.getStringExtra("ville"));
+            idaeroportarrivee =  data.getIntExtra("id",0);
+
+        } else if(requestCode == REQUEST_CODE_DEPART && resultCode == Activity.RESULT_OK) {
+            depart.setText(data.getStringExtra("ville"));
+            idaeroportdepart = data.getIntExtra("id",0);
         }
     }
 

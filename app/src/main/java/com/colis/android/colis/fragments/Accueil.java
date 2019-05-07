@@ -1,12 +1,16 @@
 package com.colis.android.colis.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +18,38 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.colis.android.colis.R;
+import com.colis.android.colis.appviews.Home;
 import com.colis.android.colis.appviews.SearchTown;
+import com.colis.android.colis.connInscript.Connexion;
+import com.colis.android.colis.model.Const;
+import com.colis.android.colis.model.Database.SessionManager;
+import com.colis.android.colis.model.dao.DatabaseHandler;
+import com.colis.android.colis.model.data.TownItem;
+import com.colis.android.colis.model.data.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Accueil extends Fragment{
 
@@ -32,14 +64,28 @@ public class Accueil extends Fragment{
     private EditText heure_darrivee;
     private EditText prix_transaction;
     private EditText poids;
-
+    private Button Ajouter;
     public static final int REQUEST_CODE = 11;
     public static final int REQUEST_CODE12 = 12;
     public static final int REQUEST_CODE13 = 13;
+    public static final int REQUEST_CODE_DEPART = 14;
+    public static final int REQUEST_CODE_ARRIVEE = 15;
     String selectedDate;
     String selectedDate1;
     String selectedDate2;
     private Accueil.OnFragmentInteractionListener mListener;
+    private Snackbar snackbar;
+    private ProgressDialog pDialog;
+    private JSONObject reponse;
+    private JSONObject data;
+    private int succes;
+    private Resources res;
+    private CoordinatorLayout coordinatorLayout;
+    private int idaeroportdepart;
+    private int idaeroportarrivee;
+    private DatabaseHandler database;
+    private SessionManager session;
+    private User user;
 
     public static Accueil newInstance() {
         Accueil fragment = new Accueil();
@@ -62,8 +108,12 @@ public class Accueil extends Fragment{
 
         View bossmaleo =  inflater.inflate(R.layout.accueil, container, false);
         final FragmentManager fm = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+        res = getResources();
+        database = new DatabaseHandler(getActivity());
+        session = new SessionManager(getActivity());
+        user = database.getUSER(Integer.valueOf(session.getUserDetail().get(SessionManager.Key_ID)));
 
-
+        coordinatorLayout = bossmaleo.findViewById(R.id.coordinatorLayout);
         date_annoonce = bossmaleo.findViewById(R.id.dateannonce);
         lieux_depart = bossmaleo.findViewById(R.id.depart);
         lieux_darrivee = bossmaleo.findViewById(R.id.arrivvee);
@@ -71,12 +121,14 @@ public class Accueil extends Fragment{
         heure_darrivee = bossmaleo.findViewById(R.id.heure_arrivee);
         prix_transaction = bossmaleo.findViewById(R.id.prix);
         poids = bossmaleo.findViewById(R.id.kilo);
+        Ajouter = bossmaleo.findViewById(R.id.ajouter);
 
         lieux_depart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
-                startActivity(intent);
+                intent.putExtra("title","Ville depart");
+                startActivityForResult(intent, REQUEST_CODE_DEPART);
             }
         });
 
@@ -84,7 +136,8 @@ public class Accueil extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
-                startActivity(intent);
+                intent.putExtra("title","Ville d'arrivee");
+                startActivityForResult(intent, REQUEST_CODE_ARRIVEE);
             }
         });
 
@@ -92,7 +145,8 @@ public class Accueil extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
-                startActivity(intent);
+                intent.putExtra("title","Ville depart");
+                startActivityForResult(intent, REQUEST_CODE_DEPART);
             }
         });
 
@@ -111,7 +165,8 @@ public class Accueil extends Fragment{
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
                     Intent intent = new Intent(getActivity(), SearchTown.class);
-                    startActivity(intent);
+                    intent.putExtra("title","Ville d'arrivee");
+                    startActivityForResult(intent, REQUEST_CODE_ARRIVEE);
                 }
             }
         });
@@ -182,6 +237,8 @@ public class Accueil extends Fragment{
                 }
             }
         });
+
+
         heure_darrivee.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -194,6 +251,19 @@ public class Accueil extends Fragment{
                     }
         });
 
+        Ajouter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validate() == true) {
+                    pDialog = new ProgressDialog(getActivity());
+                    pDialog.setMessage("Chargement en cours...");
+                    pDialog.setIndeterminate(false);
+                    pDialog.setCancelable(false);
+                    pDialog.show();
+                    InsertAnnonce();
+                }
+            }
+        });
 
 
         return  bossmaleo;
@@ -224,6 +294,14 @@ public class Accueil extends Fragment{
         }else if (requestCode == REQUEST_CODE13 && resultCode == Activity.RESULT_OK) {
             selectedDate2 = data.getStringExtra("selectedTime");
             heure_darrivee.setText(selectedDate2+":00");
+        }else if(requestCode == REQUEST_CODE_ARRIVEE && resultCode == Activity.RESULT_OK) {
+
+            lieux_darrivee.setText(data.getStringExtra("ville"));
+            idaeroportarrivee =  data.getIntExtra("id",0);
+
+        } else if(requestCode == REQUEST_CODE_DEPART && resultCode == Activity.RESULT_OK) {
+            lieux_depart.setText(data.getStringExtra("ville"));
+            idaeroportdepart = data.getIntExtra("id",0);
         }
 
     }
@@ -310,6 +388,99 @@ public class Accueil extends Fragment{
 
 
         return valid;
+    }
+
+
+
+    private void InsertAnnonce()
+    {
+        String dateannonce = String.valueOf(date_annoonce.getText().toString()).split("-")[2]+"-"
+                +String.valueOf(date_annoonce.getText().toString()).split("-")[1]+"-"
+                +String.valueOf(date_annoonce.getText().toString()).split("-")[0];
+        String Url = Const.dns+"/colis/ColisApi/public/api/InsertAnnonce?heure_depart="+String.valueOf(heure_darrivee.getText().toString())+
+                "&heure_arrivee="+String.valueOf(heure_darrivee.getText().toString())+"&max_kilo="+String.valueOf(poids.getText().toString())+
+                "&lieux_rdv1="+String.valueOf(lieux_depart.getText().toString())+"&lieux_rdv2="+String.valueOf(lieux_darrivee.getText().toString())
+                +"&dateannonce="+dateannonce+"&id_user="+user.getID()+"&id_aeroport1="+String.valueOf(idaeroportdepart)+"&id_aeroport2="+String.valueOf(idaeroportarrivee)
+                +"&prix="+String.valueOf(prix_transaction.getText().toString());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        pDialog.dismiss();
+                        showJSON(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        if(error instanceof ServerError)
+                        {
+                            pDialog.dismiss();
+                            Toast.makeText(getActivity(),res.getString(R.string.error_volley_servererror),Toast.LENGTH_LONG).show();
+                        }else if(error instanceof NetworkError)
+                        {
+                            pDialog.dismiss();
+                            Toast.makeText(getActivity(),res.getString(R.string.error_volley_servererror),Toast.LENGTH_LONG).show();
+                        }else if(error instanceof AuthFailureError)
+                        {
+                            pDialog.dismiss();
+                            Toast.makeText(getActivity(),res.getString(R.string.error_volley_servererror),Toast.LENGTH_LONG).show();
+                        }else if(error instanceof ParseError)
+                        {
+
+                            Toast.makeText(getActivity(),res.getString(R.string.error_volley_servererror),Toast.LENGTH_LONG).show();
+
+                        }else if(error instanceof NoConnectionError)
+                        {
+                            pDialog.dismiss();
+                            Toast.makeText(getActivity(),res.getString(R.string.error_volley_noconnectionerror),Toast.LENGTH_LONG).show();
+
+                        }else if(error instanceof TimeoutError)
+                        {
+                            pDialog.dismiss();
+                            Toast.makeText(getActivity(),res.getString(R.string.error_volley_timeouterror),Toast.LENGTH_LONG).show();
+                        }else
+                        {
+                            pDialog.dismiss();
+                            Toast.makeText(getActivity(),res.getString(R.string.error_volley_error),Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
+    }
+
+    public void showJSON(String response)
+    {
+        try {
+            reponse = new JSONObject(response);
+            succes = reponse.getInt("succes");
+            if(succes==1)
+            {
+                Toast.makeText(getActivity(),"Votre Annonce vient d'etre publier avec succes !",Toast.LENGTH_LONG).show();
+                lieux_depart.setText("");
+                lieux_darrivee.setText("");
+                date_annoonce.setText("");
+                prix_transaction.setText("");
+                poids.setText("");
+                heure_depart.setText("");
+                heure_darrivee.setText("");
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

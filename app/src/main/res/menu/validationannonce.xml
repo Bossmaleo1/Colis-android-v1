@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/inscript"
+        android:id="@+id/check_annonce"
         android:title="@string/inscript"
+        android:icon="@drawable/baseline_check_black_36"
         app:showAsAction="ifRoom" />
+
 </menu>

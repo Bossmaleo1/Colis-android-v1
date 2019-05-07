@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.colis.android.colis.R;
@@ -54,6 +55,12 @@ public class DetailsAnnonces extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.validationannonce, menu);
+        return true;
     }
 
 }

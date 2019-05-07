@@ -32,6 +32,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,6 +48,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.colis.android.colis.adapter.search_town_adapter;
+import com.colis.android.colis.model.Const;
 import com.colis.android.colis.model.Database.SessionManager;
 import com.colis.android.colis.model.dao.DatabaseHandler;
 import com.colis.android.colis.model.data.TownItem;
@@ -83,6 +85,7 @@ public class SearchTown extends AppCompatActivity  {
     private FloatingActionButton fab;
     private int ID = 0;
     private String IDCAT = null;
+    private TextView message_error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,31 +100,57 @@ public class SearchTown extends AppCompatActivity  {
         findViewById(R.id.coordinatorLayout).startAnimation(anim);
         toolbar = findViewById(R.id.toolbar);
         searchview = findViewById(R.id.searchview);
+        message_error = findViewById(R.id.message_error);
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Depart");
+        getSupportActionBar().setTitle(intent.getStringExtra("title"));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        data.add(new TownItem(1,"Paris (France (Roissy Charle degaulle,RCG)) "));
-        data.add(new TownItem(1,"Brazzaville (Congo (MAYA-MAYA,BZV))"));
+        /*data.add(new TownItem(1,"Paris (France (Roissy Charle degaulle,RCG)) "));
+        data.add(new TownItem(1,"Brazzaville (Congo (MAYA-MAYA,BZV))"));*/
+
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        allUsersAdapter = new search_town_adapter(this,data);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(allUsersAdapter);
 
         searchview.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
+               /* SearchTown(String.valueOf(searchview.getText().toString()));*/
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // TODO Auto-generated method stub
+                /*SearchTown(String.valueOf(searchview.getText().toString()));*/
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                    SearchTown(String.valueOf(searchview.getText().toString()));
             }
         });
+
+        recyclerView.addOnItemTouchListener(new AnnoncesList.RecyclerTouchListener(this, recyclerView, new AnnoncesList.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent i = new Intent();
+                i.putExtra("ville",data.get(position).getLibelle());
+                i.putExtra("id",data.get(position).getID());
+                setResult(RESULT_OK, i);
+                finish();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     @Override
@@ -151,21 +180,22 @@ public class SearchTown extends AppCompatActivity  {
         finish();
     }
 
-    private void ConnexionProblematique()
+    private void SearchTown(String townvalue)
     {
-        progressBar.setVisibility(View.VISIBLE);
-        searchview.setVisibility(View.GONE);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Const.dns+"/WazzabyApi/public/api/displayproblematique?ID="+String.valueOf(intent.getStringExtra("IDCAT")),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Const.dns+"/colis/ColisApi/public/api/SearchTown?town="+String.valueOf(townvalue),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        data.clear();
                         //Toast.makeText(getApplicationContext(),response,Toast.LENGTH_LONG).show();
                         try {
                             JSONArray reponse = new JSONArray(response);
                             for(int i = 0;i<reponse.length();i++)
                             {
                                 object = reponse.getJSONObject(i);
-                                data.add(new Categorie_prob(object.getInt("ID"), object.getString("Libelle")));
+                                data.add(new TownItem(object.getInt("ID"),object.getString("Libelle")));
+                                //allUsersAdapter.notifyDataSetChanged();
+                               // data.add(new Categorie_prob(object.getInt("ID"), object.getString("Libelle")));
                             }
 
 
@@ -173,9 +203,12 @@ public class SearchTown extends AppCompatActivity  {
                             e.printStackTrace();
                         }
 
-                        progressBar.setVisibility(View.GONE);
-                        searchview.setVisibility(View.VISIBLE);
                         allUsersAdapter.notifyDataSetChanged();
+                        if (data.size() == 0) {
+                            message_error.setVisibility(View.VISIBLE);
+                        }else {
+                            message_error.setVisibility(View.GONE);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -189,12 +222,10 @@ public class SearchTown extends AppCompatActivity  {
                                     .setAction(res.getString(R.string.try_again), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            ConnexionProblematique();
                                         }
                                     });
 
                             snackbar.show();
-                            progressBar.setVisibility(View.GONE);
                         }else if(error instanceof NetworkError)
                         {
                             snackbar = Snackbar
@@ -202,12 +233,10 @@ public class SearchTown extends AppCompatActivity  {
                                     .setAction(res.getString(R.string.try_again), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            ConnexionProblematique();
                                         }
                                     });
 
                             snackbar.show();
-                            progressBar.setVisibility(View.GONE);
                         }else if(error instanceof AuthFailureError)
                         {
                             snackbar = Snackbar
@@ -215,12 +244,10 @@ public class SearchTown extends AppCompatActivity  {
                                     .setAction(res.getString(R.string.try_again), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            ConnexionProblematique();
                                         }
                                     });
 
                             snackbar.show();
-                            progressBar.setVisibility(View.GONE);
                         }else if(error instanceof ParseError)
                         {
                             snackbar = Snackbar
@@ -228,12 +255,10 @@ public class SearchTown extends AppCompatActivity  {
                                     .setAction(res.getString(R.string.try_again), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            ConnexionProblematique();
                                         }
                                     });
 
                             snackbar.show();
-                            progressBar.setVisibility(View.GONE);
                         }else if(error instanceof NoConnectionError)
                         {
                             snackbar = Snackbar
@@ -241,12 +266,10 @@ public class SearchTown extends AppCompatActivity  {
                                     .setAction(res.getString(R.string.try_again), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            ConnexionProblematique();
                                         }
                                     });
 
                             snackbar.show();
-                            progressBar.setVisibility(View.GONE);
                         }else if(error instanceof TimeoutError)
                         {
                             snackbar = Snackbar
@@ -254,11 +277,9 @@ public class SearchTown extends AppCompatActivity  {
                                     .setAction(res.getString(R.string.try_again), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            ConnexionProblematique();
                                         }
                                     });
                             snackbar.show();
-                            progressBar.setVisibility(View.GONE);
                         }else
                         {
                             snackbar = Snackbar
@@ -266,19 +287,16 @@ public class SearchTown extends AppCompatActivity  {
                                     .setAction(res.getString(R.string.try_again), new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            ConnexionProblematique();
                                         }
                                     });
 
                             snackbar.show();
-                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 }){
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<String, String>();
-                //params.put("IDCAT",);
                 return params;
             }
 
@@ -286,6 +304,58 @@ public class SearchTown extends AppCompatActivity  {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+
+    public static interface ClickListener {
+        public void onClick(View view, int position);
+
+        public void onLongClick(View view, int position);
+    }
+
+    static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+
+        private GestureDetector gestureDetector;
+        private SearchTown.ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final SearchTown.ClickListener clickListener) {
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+
+
     }
 
 

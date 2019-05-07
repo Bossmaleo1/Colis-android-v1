@@ -1,5 +1,6 @@
 package com.colis.android.colis.appviews;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -20,9 +21,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.colis.android.colis.R;
+import com.colis.android.colis.connInscript.MainActivity;
 import com.colis.android.colis.fragments.Accueil;
 import com.colis.android.colis.fragments.Notification;
 import com.colis.android.colis.fragments.Recherche;
+import com.colis.android.colis.model.Database.SessionManager;
+import com.colis.android.colis.model.dao.DatabaseHandler;
+import com.colis.android.colis.model.data.User;
 
 public class Home extends AppCompatActivity {
 
@@ -41,6 +46,9 @@ public class Home extends AppCompatActivity {
     private String menu_accueil;
     private String menu_recherche;
     private String menu_notification;
+    private DatabaseHandler database;
+    private SessionManager session;
+    private User user;
 
 
     @Override
@@ -50,6 +58,9 @@ public class Home extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         toolbar =  findViewById(R.id.toolbar);
         res = getResources();
+        database = new DatabaseHandler(this);
+        session = new SessionManager(this);
+        user = database.getUSER(Integer.valueOf(session.getUserDetail().get(SessionManager.Key_ID)));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -176,20 +187,17 @@ public class Home extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
+    public boolean onOptionsItemSelected (MenuItem item)
+    {
+        switch(item.getItemId())
+        {
+            case R.id.deco:
+                session.logoutUser();
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
                 return true;
-            case R.id.send :
-                return true;
-            case R.id.add_picture:
-                return true;
-            case R.id.insert_picture:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
