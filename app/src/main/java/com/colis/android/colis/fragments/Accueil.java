@@ -18,8 +18,11 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -58,13 +61,18 @@ public class Accueil extends Fragment{
     private int year;
     static final int DATE_DIALOG_ID = 999;
     private EditText date_annoonce;
-    private EditText lieux_depart;
-    private EditText lieux_darrivee;
+    private EditText ville_depart;
+    private EditText ville_darrivee;
     private EditText heure_depart;
     private EditText heure_darrivee;
     private EditText prix_transaction;
     private EditText poids;
     private Button Ajouter;
+    private Button Suivant;
+    private EditText Lieux_rdv1;
+    private EditText Lieux_rdv2;
+    private RelativeLayout Block1;
+    private RelativeLayout Block2;
     public static final int REQUEST_CODE = 11;
     public static final int REQUEST_CODE12 = 12;
     public static final int REQUEST_CODE13 = 13;
@@ -86,6 +94,7 @@ public class Accueil extends Fragment{
     private DatabaseHandler database;
     private SessionManager session;
     private User user;
+    private Animation anim;
 
     public static Accueil newInstance() {
         Accueil fragment = new Accueil();
@@ -115,15 +124,21 @@ public class Accueil extends Fragment{
 
         coordinatorLayout = bossmaleo.findViewById(R.id.coordinatorLayout);
         date_annoonce = bossmaleo.findViewById(R.id.dateannonce);
-        lieux_depart = bossmaleo.findViewById(R.id.depart);
-        lieux_darrivee = bossmaleo.findViewById(R.id.arrivvee);
+        ville_depart = bossmaleo.findViewById(R.id.depart);
+        ville_darrivee = bossmaleo.findViewById(R.id.arrivvee);
         heure_depart = bossmaleo.findViewById(R.id.heure_depart);
         heure_darrivee = bossmaleo.findViewById(R.id.heure_arrivee);
         prix_transaction = bossmaleo.findViewById(R.id.prix);
         poids = bossmaleo.findViewById(R.id.kilo);
+        Suivant = bossmaleo.findViewById(R.id.ajouter1);
         Ajouter = bossmaleo.findViewById(R.id.ajouter);
+        Block1 = bossmaleo.findViewById(R.id.block);
+        Block2 = bossmaleo.findViewById(R.id.block2);
+        Lieux_rdv1 = bossmaleo.findViewById(R.id.lieux_rdv1);
+        Lieux_rdv2 = bossmaleo.findViewById(R.id.lieux_rdv2);
+        anim = AnimationUtils.loadAnimation(getActivity(),R.anim.slide_in);
 
-        lieux_depart.setOnClickListener(new View.OnClickListener() {
+        ville_depart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
@@ -132,7 +147,7 @@ public class Accueil extends Fragment{
             }
         });
 
-        lieux_darrivee.setOnClickListener(new View.OnClickListener() {
+        ville_darrivee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
@@ -141,7 +156,7 @@ public class Accueil extends Fragment{
             }
         });
 
-        lieux_depart.setOnClickListener(new View.OnClickListener() {
+        ville_depart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
@@ -150,7 +165,7 @@ public class Accueil extends Fragment{
             }
         });
 
-        lieux_depart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        ville_depart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
@@ -160,7 +175,7 @@ public class Accueil extends Fragment{
             }
         });
 
-        lieux_darrivee.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        ville_darrivee.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
@@ -251,10 +266,27 @@ public class Accueil extends Fragment{
                     }
         });
 
+        Suivant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validate1() == true) {
+                    Block1.setVisibility(View.GONE);
+                    Block2.setVisibility(View.VISIBLE);
+                    Block2.startAnimation(anim);
+                    /*pDialog = new ProgressDialog(getActivity());
+                    pDialog.setMessage("Chargement en cours...");
+                    pDialog.setIndeterminate(false);
+                    pDialog.setCancelable(false);
+                    pDialog.show();
+                    InsertAnnonce();*/
+                }
+            }
+        });
+
         Ajouter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validate() == true) {
+                if(validate2() == true) {
                     pDialog = new ProgressDialog(getActivity());
                     pDialog.setMessage("Chargement en cours...");
                     pDialog.setIndeterminate(false);
@@ -296,11 +328,11 @@ public class Accueil extends Fragment{
             heure_darrivee.setText(selectedDate2+":00");
         }else if(requestCode == REQUEST_CODE_ARRIVEE && resultCode == Activity.RESULT_OK) {
 
-            lieux_darrivee.setText(data.getStringExtra("ville"));
+            ville_darrivee.setText(data.getStringExtra("ville"));
             idaeroportarrivee =  data.getIntExtra("id",0);
 
         } else if(requestCode == REQUEST_CODE_DEPART && resultCode == Activity.RESULT_OK) {
-            lieux_depart.setText(data.getStringExtra("ville"));
+            ville_depart.setText(data.getStringExtra("ville"));
             idaeroportdepart = data.getIntExtra("id",0);
         }
 
@@ -325,30 +357,28 @@ public class Accueil extends Fragment{
         void onFragmentInteraction(Uri uri);
     }
 
-    public boolean validate() {
+    public boolean validate1() {
         boolean valid = true;
 
-        String _depart_voyage = lieux_depart.getText().toString();
-        String _arrivee_voyage = lieux_darrivee.getText().toString();
+        String _depart_voyage = ville_depart.getText().toString();
+        String _arrivee_voyage = ville_darrivee.getText().toString();
         String _date_voyage = date_annoonce.getText().toString();
-        String _prix_transaction = prix_transaction.getText().toString();
-        String _poids = poids.getText().toString();
         String _heure_depart = heure_depart.getText().toString();
         String _heure_darrivee = heure_darrivee.getText().toString();
 
 
         if (_depart_voyage.isEmpty()) {
-            lieux_depart.setError("Veuillez remplir la ville de depart svp !");
+            ville_depart.setError("Veuillez remplir la ville de depart svp !");
             valid = false;
         } else {
-            lieux_depart.setError(null);
+            ville_depart.setError(null);
         }
 
         if (_arrivee_voyage.isEmpty()) {
-            lieux_darrivee.setError("Veuillez remplir la ville d'arrivee svp!");
+            ville_darrivee.setError("Veuillez remplir la ville d'arrivee svp!");
             valid = false;
         }else {
-            lieux_darrivee.setError(null);
+            ville_darrivee.setError(null);
         }
 
         if (_date_voyage.isEmpty()) {
@@ -357,6 +387,33 @@ public class Accueil extends Fragment{
         }else {
             date_annoonce.setError(null);
         }
+
+        if (_heure_depart.isEmpty()) {
+            heure_depart.setError("Veuillez remplir l'heure de  depart svp !");
+            valid = false;
+        }else {
+            heure_depart.setError(null);
+        }
+
+        if (_heure_darrivee.isEmpty()) {
+            heure_darrivee.setError("Veuillez remplir l'heure d'arrivee svp !");
+            valid = false;
+        }else {
+            heure_darrivee.setError(null);
+        }
+
+
+        return valid;
+    }
+
+    public boolean validate2() {
+        boolean valid = true;
+
+        String _prix_transaction = prix_transaction.getText().toString();
+        String _poids = poids.getText().toString();
+        String _lieux_rdv1 = Lieux_rdv1.getText().toString();
+        String _lieux_rdv2 = Lieux_rdv2.getText().toString();
+
 
         if (_prix_transaction.isEmpty()) {
             prix_transaction.setError("Veuillez indiquer le prix de la transaction svp !");
@@ -372,19 +429,21 @@ public class Accueil extends Fragment{
             poids.setError(null);
         }
 
-        if (_heure_depart.isEmpty()) {
-            date_annoonce.setError("Veuillez remplir l'heure de  depart svp !");
+        if (_lieux_rdv1.isEmpty()) {
+            Lieux_rdv1.setError("Veuillez indiquer le lieux du rdv de depart");
             valid = false;
         }else {
-            date_annoonce.setError(null);
+            Lieux_rdv1.setError(null);
         }
 
-        if (_heure_darrivee.isEmpty()) {
-            heure_darrivee.setError("Veuillez remplir l'heure d'arrivee svp !");
+        if (_lieux_rdv2.isEmpty()) {
+            Lieux_rdv2.setError("Veuillez indiquer le lieux du rdv d'arrivee");
             valid = false;
         }else {
-            heure_darrivee.setError(null);
+            Lieux_rdv2.setError(null);
         }
+
+
 
 
         return valid;
@@ -399,7 +458,7 @@ public class Accueil extends Fragment{
                 +String.valueOf(date_annoonce.getText().toString()).split("-")[0];
         String Url = Const.dns+"/colis/ColisApi/public/api/InsertAnnonce?heure_depart="+String.valueOf(heure_darrivee.getText().toString())+
                 "&heure_arrivee="+String.valueOf(heure_darrivee.getText().toString())+"&max_kilo="+String.valueOf(poids.getText().toString())+
-                "&lieux_rdv1="+String.valueOf(lieux_depart.getText().toString())+"&lieux_rdv2="+String.valueOf(lieux_darrivee.getText().toString())
+                "&lieux_rdv1="+String.valueOf(Lieux_rdv1.getText().toString())+"&lieux_rdv2="+String.valueOf(Lieux_rdv2.getText().toString())
                 +"&dateannonce="+dateannonce+"&id_user="+user.getID()+"&id_aeroport1="+String.valueOf(idaeroportdepart)+"&id_aeroport2="+String.valueOf(idaeroportarrivee)
                 +"&prix="+String.valueOf(prix_transaction.getText().toString());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url,
@@ -467,8 +526,8 @@ public class Accueil extends Fragment{
             if(succes==1)
             {
                 Toast.makeText(getActivity(),"Votre Annonce vient d'etre publier avec succes !",Toast.LENGTH_LONG).show();
-                lieux_depart.setText("");
-                lieux_darrivee.setText("");
+                ville_depart.setText("");
+                ville_darrivee.setText("");
                 date_annoonce.setText("");
                 prix_transaction.setText("");
                 poids.setText("");
