@@ -52,6 +52,10 @@
 
         </activity>
 
+        <activity android:name=".connInscript.formInscriptSms" android:theme="@style/AppTheme2">
+
+        </activity>
+
         <activity android:name=".connInscript.formIncript3" android:theme="@style/AppTheme2">
 
         </activity>

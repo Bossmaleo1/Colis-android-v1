@@ -89,14 +89,13 @@ public class formIncript3 extends AppCompatActivity {
         send = findViewById(R.id.send);
         addListenerOnButton();
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(res.getString(R.string.inscript1_3));
+        getSupportActionBar().setTitle("Inscription 4/4");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         /*getSupportActionBar().setTitle(res.getString(R.string.inscript1_1));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         setCurrentDateOnView();
         intent = getIntent();
         session = new SessionManager(this);
-
         //setTheme(android.R.style.Theme);
         //Instanciata de la classe DatabaseHandler
         database = new DatabaseHandler(this);
@@ -114,7 +113,7 @@ public class formIncript3 extends AppCompatActivity {
                     String url = Const.dns+"/colis/ColisApi/public/api/CreateUser?nom="+intent.getStringExtra("nom")
                             +"&prenom="+intent.getStringExtra("prenom")+"&email="+intent.getStringExtra("email")+"&codedevalidation="
                             +intent.getStringExtra("code")+"&sexe="+intent.getStringExtra("sexe")+"&password="+String.valueOf(password.getText().toString())
-                            +"&date="+datedenaissanceLibelle;
+                            +"&date="+datedenaissanceLibelle+"&telephone="+intent.getStringExtra("phonenumber");
                     CreateUser(url);
                 }
 
@@ -134,7 +133,8 @@ public class formIncript3 extends AppCompatActivity {
                         String url92 = Const.dns.concat("/colis/ColisApiOthers/send_welcome_mail.php?password=")
                                 .concat(String.valueOf(password.getText().toString())).concat("&email=")
                                 .concat(intent.getStringExtra("email")).concat("&sexe=").concat(intent.getStringExtra("sexe"))
-                                .concat("&prenom=").concat(intent.getStringExtra("prenom")).concat("&nom=").concat(intent.getStringExtra("nom"));
+                                .concat("&prenom=").concat(intent.getStringExtra("prenom")).concat("&nom=")
+                                .concat(intent.getStringExtra("nom"));
                         SendMessage(url92);
                         Toast.makeText(formIncript3.this, "Votre Inscription s'est effectuer avec succes !!" , Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(),UploadImage.class);
@@ -344,7 +344,7 @@ public class formIncript3 extends AppCompatActivity {
                     "yo","yoyo"//ici c'est le keypush, il va falloir l'ajouter sur le script php et ajouter libelle prob
                     ,"yoyo","yoyo"
                     ,"yoyo","yoyo"
-                    ,"yoyo");
+                    ,intent.getStringExtra("telephone"));
             database.addUSER(user);
         } catch (JSONException e) {
             e.printStackTrace();

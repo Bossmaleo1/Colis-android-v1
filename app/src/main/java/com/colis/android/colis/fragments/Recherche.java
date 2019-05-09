@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 import com.colis.android.colis.R;
 import com.colis.android.colis.appviews.AnnoncesList;
 import com.colis.android.colis.appviews.SearchTown;
+
+import org.json.JSONObject;
 
 import java.util.Calendar;
 
@@ -64,6 +67,9 @@ public class Recherche extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AnnoncesList.class);
+                intent.putExtra("depart",String.valueOf(idaeroportdepart));
+                intent.putExtra("arrivee",String.valueOf(idaeroportarrivee));
+                intent.putExtra("date",String.valueOf(dateannonce.getText().toString()));
                 startActivity(intent);
             }
         });
@@ -212,6 +218,8 @@ public class Recherche extends Fragment {
 
         return valid;
     }
+
+
 
 
 

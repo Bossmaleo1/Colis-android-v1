@@ -25,6 +25,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.colis.android.colis.R;
 import com.colis.android.colis.model.Const;
+import com.colis.android.colis.model.data.Annonce;
 import com.colis.android.colis.model.data.AnnonceItem;
 
 import java.util.Collections;
@@ -35,12 +36,12 @@ import static android.support.v4.content.ContextCompat.startActivity;
 public class accueil_adapter extends RecyclerView.Adapter<accueil_adapter.MyViewHolder>  implements MenuItem.OnMenuItemClickListener{
 
 
-    List<AnnonceItem> data = Collections.emptyList();
+    List<Annonce> data = Collections.emptyList();
     private LayoutInflater inflater;
     private Context context;
 
 
-    public accueil_adapter(Context context,List<AnnonceItem> data)
+    public accueil_adapter(Context context,List<Annonce> data)
     {
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -64,14 +65,21 @@ public class accueil_adapter extends RecyclerView.Adapter<accueil_adapter.MyView
 
     @Override
     public void onBindViewHolder(final accueil_adapter.MyViewHolder holder, int position) {
-        final AnnonceItem current = data.get(position);
-        holder.title.setText(current.getNameMembreProb());
-        holder.title1.setText(current.getDatetime());
-        holder.picture.setImageResource(R.drawable.ic_profile_colorier);
-        holder.depart.setText("Paris (France (Roissy Charle degaulle,RCG))");
-        holder.arrivee.setText("Brazzaville (Congo (MAYA-MAYA,BZV))");
-        holder.Prix.setText("25 euros/Kg");
-        holder.dateannonce.setText("27-07-2019");
+        final Annonce current = data.get(position);
+        holder.title.setText(current.getNOM_USER());
+        holder.title1.setText(current.getDATE_ANNONCE());
+        if(!current.getPHOTO_USER().equals("null")) {
+            Glide.with(current.getContext())
+                    .load(Const.dns+"/colis/uploads/photo_de_profil/" + current.getPHOTO_USER())
+                    .into(holder.picture);
+        }else
+        {
+            holder.picture.setImageResource(R.drawable.ic_profile_colorier);
+        }
+        holder.depart.setText(current.getLIEUX_DEPART());
+        holder.arrivee.setText(current.getLIEUX_ARRIVEE());
+        holder.Prix.setText(current.getPRIX()+" euros/Kg");
+        holder.dateannonce.setText(current.getDATE_ANNONCE_VOYAGE());
     }
 
 
