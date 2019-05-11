@@ -82,8 +82,6 @@ public class Home extends AppCompatActivity {
         recherche_title_text = new SpannableString(menu_recherche);
         notification_text = new SpannableString(menu_notification);
         recherche_title_text.setSpan(new ForegroundColorSpan(res.getColor(R.color.colorPrimary)),0,menu_recherche.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-       /* recherche_title_text.setSpan(new ForegroundColorSpan(res.getColor(R.color.graycolor)),0,menu_accueil.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        notification_text.setSpan(new ForegroundColorSpan(res.getColor(R.color.graycolor)),0,menu_accueil.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);*/
         menu.findItem(R.id.recherche).setTitle(recherche_title_text);
         loadFragment(new Recherche());
     }

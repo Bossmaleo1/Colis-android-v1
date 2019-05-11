@@ -32,6 +32,10 @@
 
         </activity>
 
+        <activity android:name=".appviews.DetailsAnnonceur" android:theme="@style/AppTheme2">
+
+        </activity>
+
         <activity android:name=".appviews.AnnoncesList" android:theme="@style/AppTheme2">
 
         </activity>

@@ -1,8 +1,10 @@
 package com.colis.android.colis.model.data;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Annonce {
+public class Annonce implements Parcelable {
 
     private int ID;
     private int ID_USER;
@@ -12,8 +14,10 @@ public class Annonce {
     private String DATE_ANNONCE;
     private String DATE_ANNONCE_VOYAGE;
     private String PRIX;
-    private String LIEUX_DEPART;
-    private String LIEUX_ARRIVEE;
+    private String LIEUX_RDV1;
+    private String LIEUX_RDV2;
+    private String VILLE_DEPART;
+    private String VILLE_ARRIVEE;
     private String HEURE_DEPART;
     private String HEURE_ARRIVEE;
     private String NOMBRE_KILO;
@@ -21,7 +25,7 @@ public class Annonce {
 
     public Annonce(Context context,int ID,int ID_USER,String PHOTO_USER,String NOM_USER
             ,String PHONE_USER,String DATE_ANNONCE,String DATE_ANNONCE_VOYAGE,String PRIX
-            ,String LIEUX_DEPART,String LIEUX_ARRIVEE,String HEURE_DEPART,String HEURE_ARRIVEE
+            ,String LIEUX_RDV1,String LIEUX_RDV2,String VILLE_DEPART,String VILLE_ARRIVEE,String HEURE_DEPART,String HEURE_ARRIVEE
             ,String NOMBRE_KILO) {
         this.context = context;
         this.ID = ID;
@@ -32,11 +36,52 @@ public class Annonce {
         this.DATE_ANNONCE = DATE_ANNONCE;
         this.DATE_ANNONCE_VOYAGE = DATE_ANNONCE_VOYAGE;
         this.PRIX = PRIX;
-        this.LIEUX_DEPART = LIEUX_DEPART;
-        this.LIEUX_ARRIVEE = LIEUX_ARRIVEE;
+        this.LIEUX_RDV1 = LIEUX_RDV1;
+        this.LIEUX_RDV2 = LIEUX_RDV2;
+        this.VILLE_DEPART = VILLE_DEPART;
+        this.VILLE_ARRIVEE = VILLE_ARRIVEE;
         this.HEURE_DEPART = HEURE_DEPART;
         this.HEURE_ARRIVEE = HEURE_ARRIVEE;
         this.NOMBRE_KILO = NOMBRE_KILO;
+    }
+
+    public Annonce(int ID,int ID_USER,String PHOTO_USER,String NOM_USER
+            ,String PHONE_USER,String DATE_ANNONCE,String DATE_ANNONCE_VOYAGE,String PRIX
+            ,String LIEUX_RDV1,String LIEUX_RDV2,String VILLE_DEPART,String VILLE_ARRIVEE,String HEURE_DEPART,String HEURE_ARRIVEE
+            ,String NOMBRE_KILO) {
+        this.ID = ID;
+        this.ID_USER = ID_USER;
+        this.PHOTO_USER = PHOTO_USER;
+        this.NOM_USER = NOM_USER;
+        this.PHONE_USER = PHONE_USER;
+        this.DATE_ANNONCE = DATE_ANNONCE;
+        this.DATE_ANNONCE_VOYAGE = DATE_ANNONCE_VOYAGE;
+        this.PRIX = PRIX;
+        this.LIEUX_RDV1 = LIEUX_RDV1;
+        this.LIEUX_RDV2 = LIEUX_RDV2;
+        this.VILLE_DEPART = VILLE_DEPART;
+        this.VILLE_ARRIVEE = VILLE_ARRIVEE;
+        this.HEURE_DEPART = HEURE_DEPART;
+        this.HEURE_ARRIVEE = HEURE_ARRIVEE;
+        this.NOMBRE_KILO = NOMBRE_KILO;
+    }
+
+    public Annonce(Parcel parcel){
+        this.ID = parcel.readInt();
+        this.ID_USER = parcel.readInt();
+        this.PHOTO_USER = parcel.readString();
+        this.NOM_USER = parcel.readString();
+        this.PHONE_USER = parcel.readString();
+        this.DATE_ANNONCE = parcel.readString();
+        this.DATE_ANNONCE_VOYAGE = parcel.readString();
+        this.PRIX = parcel.readString();
+        this.LIEUX_RDV1 = parcel.readString();
+        this.LIEUX_RDV2 = parcel.readString();
+        this.VILLE_DEPART = parcel.readString();
+        this.VILLE_ARRIVEE = parcel.readString();
+        this.HEURE_DEPART = parcel.readString();
+        this.HEURE_ARRIVEE = parcel.readString();
+        this.NOMBRE_KILO = parcel.readString();
     }
 
     public int getID() {
@@ -59,17 +104,10 @@ public class Annonce {
         return DATE_ANNONCE_VOYAGE;
     }
 
-    public String getLIEUX_ARRIVEE() {
-        return LIEUX_ARRIVEE;
-    }
-
     public String getPHONE_USER() {
         return PHONE_USER;
     }
 
-    public String getLIEUX_DEPART() {
-        return LIEUX_DEPART;
-    }
 
     public String getPHOTO_USER() {
         return PHOTO_USER;
@@ -99,10 +137,6 @@ public class Annonce {
         this.ID_USER = ID_USER;
     }
 
-    public void setLIEUX_DEPART(String LIEUX_DEPART) {
-        this.LIEUX_DEPART = LIEUX_DEPART;
-    }
-
     public void setNOM_USER(String NOM_USER) {
         this.NOM_USER = NOM_USER;
     }
@@ -115,9 +149,6 @@ public class Annonce {
         this.HEURE_DEPART = HEURE_DEPART;
     }
 
-    public void setLIEUX_ARRIVEE(String LIEUX_ARRIVEE) {
-        this.LIEUX_ARRIVEE = LIEUX_ARRIVEE;
-    }
 
     public void setPHOTO_USER(String PHOTO_USER) {
         this.PHOTO_USER = PHOTO_USER;
@@ -150,5 +181,74 @@ public class Annonce {
     public void setNOMBRE_KILO(String NOMBRE_KILO) {
         this.NOMBRE_KILO = NOMBRE_KILO;
     }
-    
+
+    public String getLIEUX_RDV1() {
+        return LIEUX_RDV1;
+    }
+
+    public String getLIEUX_RDV2() {
+        return LIEUX_RDV2;
+    }
+
+    public String getVILLE_DEPART() {
+        return VILLE_DEPART;
+    }
+
+    public String getVILLE_ARRIVEE() {
+        return VILLE_ARRIVEE;
+    }
+
+    public void setLIEUX_RDV1(String LIEUX_RDV1) {
+        this.LIEUX_RDV1 = LIEUX_RDV1;
+    }
+
+    public void setLIEUX_RDV2(String LIEUX_RDV2) {
+        this.LIEUX_RDV2 = LIEUX_RDV2;
+    }
+
+    public void setVILLE_DEPART(String VILLE_DEPART) {
+        this.VILLE_DEPART = VILLE_DEPART;
+    }
+
+    public void setVILLE_ARRIVEE(String VILLE_ARRIVEE) {
+        this.VILLE_ARRIVEE = VILLE_ARRIVEE;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(ID);
+        dest.writeInt(ID_USER);
+        dest.writeString(PHOTO_USER);
+        dest.writeString(NOM_USER);
+        dest.writeString(PHONE_USER);
+        dest.writeString(DATE_ANNONCE);
+        dest.writeString(DATE_ANNONCE_VOYAGE);
+        dest.writeString(PRIX);
+        dest.writeString(LIEUX_RDV1);
+        dest.writeString(LIEUX_RDV2);
+        dest.writeString(VILLE_DEPART);
+        dest.writeString(VILLE_ARRIVEE);
+        dest.writeString(HEURE_DEPART);
+        dest.writeString(HEURE_ARRIVEE);
+        dest.writeString(NOMBRE_KILO);
+    }
+
+    public static final Parcelable.Creator<Annonce> CREATOR = new Parcelable.Creator<Annonce>(){
+
+        @Override
+        public Annonce createFromParcel(Parcel parcel) {
+            return new Annonce(parcel);
+        }
+
+        @Override
+        public Annonce[] newArray(int size) {
+            return new Annonce[0];
+        }
+    };
+
 }

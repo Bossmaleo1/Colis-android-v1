@@ -21,7 +21,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
         </android.support.design.widget.AppBarLayout>
 
 
@@ -68,6 +68,7 @@
                                 android:layout_height="40dp"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginTop="4dp"
+                                android:src="@drawable/ic_profile_colorier"
                                 />
 
                             <LinearLayout
@@ -93,7 +94,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:textSize="10dp"
-                                    android:text="Test"
+                                    android:text=""
                                     />
                             </LinearLayout>
 
@@ -147,7 +148,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
-                                android:text="Test"
+                                android:text=""
                                 />
 
 
@@ -180,7 +181,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
-                                android:text="Test"
+                                android:text=""
                                 />
 
 
@@ -213,7 +214,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
-                                android:text="Test"
+                                android:text=""
                                 />
 
 
@@ -245,7 +246,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
-                                android:text="Test"
+                                android:text=""
                                 />
 
 
@@ -277,7 +278,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
-                                android:text="Test"
+                                android:text=""
                                 />
 
 
@@ -309,7 +310,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
-                                android:text="Test"
+                                android:text=""
                                 />
 
 
@@ -341,7 +342,74 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:layout_gravity="center"
-                                android:text="Test"
+                                android:text=""
+                                />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/rdv1_block"
+                            android:layout_below="@+id/poids_vrai_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_place_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/rdv1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text=""
+                                />
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:id="@+id/rdv2_block"
+                            android:layout_below="@+id/rdv1_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_place_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/rdv2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text=""
                                 />
 
 
@@ -350,7 +418,7 @@
 
 
                         <View
-                            android:layout_below="@+id/poids_vrai_block"
+                            android:layout_below="@+id/rdv2_block"
                             android:id="@+id/trace_separation"
                             android:layout_width="match_parent"
                             android:layout_height="16dip"
@@ -386,6 +454,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/block_details"
                     android:layout_below="@+id/section_block1"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
@@ -421,13 +490,16 @@
                         android:background="@android:color/white"
                         />
 
-                    <View
+                    <TextView
                         android:id="@+id/espace_details_annonceur4"
                         android:layout_below="@+id/espace_details_annonceur3"
                         android:layout_width="match_parent"
-                        android:layout_height="16dip"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dip"
                         android:layout_marginLeft="4dip"
                         android:layout_marginRight="4dip"
+                        android:gravity="center"
+                        android:text=""
                         android:background="@android:color/white"
                         />
 

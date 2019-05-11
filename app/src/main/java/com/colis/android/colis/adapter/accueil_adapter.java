@@ -76,8 +76,8 @@ public class accueil_adapter extends RecyclerView.Adapter<accueil_adapter.MyView
         {
             holder.picture.setImageResource(R.drawable.ic_profile_colorier);
         }
-        holder.depart.setText(current.getLIEUX_DEPART());
-        holder.arrivee.setText(current.getLIEUX_ARRIVEE());
+        holder.depart.setText(current.getVILLE_DEPART());
+        holder.arrivee.setText(current.getVILLE_ARRIVEE());
         holder.Prix.setText(current.getPRIX()+" euros/Kg");
         holder.dateannonce.setText(current.getDATE_ANNONCE_VOYAGE());
     }

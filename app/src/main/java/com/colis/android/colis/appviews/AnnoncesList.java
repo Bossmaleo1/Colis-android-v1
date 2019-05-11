@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,12 +44,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AnnoncesList extends AppCompatActivity {
+public class AnnoncesList extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     public static RecyclerView recyclerView;
     private accueil_adapter allUsersAdapter;
@@ -63,6 +65,7 @@ public class AnnoncesList extends AppCompatActivity {
     private ShimmerFrameLayout mShimmerViewContainer;
     private Toolbar toolbar;
     private Intent intent93;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,9 @@ public class AnnoncesList extends AppCompatActivity {
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
         coordinatorLayout =  findViewById(R.id.coordinatorLayout);
         recyclerView = findViewById(R.id.my_recycler_view);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         allUsersAdapter = new accueil_adapter(this,data);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
@@ -92,6 +98,7 @@ public class AnnoncesList extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(),DetailsAnnonces.class);
+                intent.putExtra("annonce",data.get(position));
                 startActivity(intent);
             }
 
@@ -127,6 +134,11 @@ public class AnnoncesList extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     public static interface ClickListener {
@@ -200,7 +212,7 @@ public class AnnoncesList extends AppCompatActivity {
                 +String.valueOf(intent93.getStringExtra("date")).split("-")[1]+"-"
                 +String.valueOf(intent93.getStringExtra("date")).split("-")[0];
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Const.dns+"/colis/ColisApi/public/api/Rechercher?lieux_arrivee="
-                +intent93.getStringExtra("depart")+"&lieux_depart="+intent93.getStringExtra("arrivee")
+                +intent93.getStringExtra("arrivee")+"&lieux_depart="+intent93.getStringExtra("depart")
                 +"&date_voyage="+datevoyageannonce,
                 new Response.Listener<String>() {
                     @Override
@@ -217,7 +229,7 @@ public class AnnoncesList extends AppCompatActivity {
                                 Annonce annonceItem = new Annonce(context,object.getInt("ID"),object.getInt("ID_USER"),
                                         object.getString("PHOTO_USER"),object.getString("NOM_USER"),object.getString("PHONE_USER"),
                                         object.getString("DATE_ANNONCE"),object.getString("DATE_ANNONCE_VOYAGE"),object.getString("Prix"),
-                                        object.getString("lieux_depart"),object.getString("lieux_arrivee"),object.getString("heure_depart"),
+                                        object.getString("lieux_rdv1"),object.getString("lieux_rdv2"),object.getString("ville_depart"),object.getString("ville_arrivee"),object.getString("heure_depart"),
                                         object.getString("heure_darrivee"),object.getString("nombre_kilo"));
                                 data.add(annonceItem);
                             }

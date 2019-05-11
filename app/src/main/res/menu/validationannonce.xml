@@ -5,7 +5,7 @@
     <item
         android:id="@+id/check_annonce"
         android:title="@string/inscript"
-        android:icon="@drawable/baseline_check_black_36"
+        android:icon="@drawable/baseline_check_black_48"
         app:showAsAction="ifRoom" />
 
 </menu>

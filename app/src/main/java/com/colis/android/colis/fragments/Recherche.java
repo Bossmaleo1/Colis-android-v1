@@ -66,11 +66,13 @@ public class Recherche extends Fragment {
         rechercher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AnnoncesList.class);
-                intent.putExtra("depart",String.valueOf(idaeroportdepart));
-                intent.putExtra("arrivee",String.valueOf(idaeroportarrivee));
-                intent.putExtra("date",String.valueOf(dateannonce.getText().toString()));
-                startActivity(intent);
+                if(validate()==true) {
+                    Intent intent = new Intent(getActivity(), AnnoncesList.class);
+                    intent.putExtra("depart", String.valueOf(idaeroportdepart));
+                    intent.putExtra("arrivee", String.valueOf(idaeroportarrivee));
+                    intent.putExtra("date", String.valueOf(dateannonce.getText().toString()));
+                    startActivity(intent);
+                }
             }
         });
 
