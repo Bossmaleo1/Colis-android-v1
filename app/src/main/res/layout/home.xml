@@ -43,6 +43,7 @@
         android:background="?android:attr/windowBackground"
         app:itemBackground="@android:color/white"
         android:foreground="?attr/selectableItemBackground"
+        app:actionLayout="@layout/custom_action_item_layout"
         app:itemIconTint="@color/graydark"
         app:itemTextColor="@color/graydark"
         app:menu="@menu/navigation" />

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "820221175977",
+    "firebase_url": "https://colis-7429a.firebaseio.com",
+    "project_id": "colis-7429a",
+    "storage_bucket": "colis-7429a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820221175977:android:b13692c131fd53d4",
+        "android_client_info": {
+          "package_name": "com.colis.android.colis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820221175977-00jjcfl2b0r66fdmub7ecij7d5h0ngkr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhOCR-bLedztnuY0K3qRtKjlBZWVuHH9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820221175977-00jjcfl2b0r66fdmub7ecij7d5h0ngkr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

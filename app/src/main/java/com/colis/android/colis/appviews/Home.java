@@ -1,33 +1,58 @@
 package com.colis.android.colis.appviews;
 
+import android.content.BroadcastReceiver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.colis.android.colis.R;
 import com.colis.android.colis.connInscript.MainActivity;
 import com.colis.android.colis.fragments.Accueil;
 import com.colis.android.colis.fragments.Notification;
 import com.colis.android.colis.fragments.Recherche;
+import com.colis.android.colis.model.Config;
+import com.colis.android.colis.model.Const;
 import com.colis.android.colis.model.Database.SessionManager;
 import com.colis.android.colis.model.dao.DatabaseHandler;
 import com.colis.android.colis.model.data.User;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Home extends AppCompatActivity {
 
@@ -49,6 +74,10 @@ public class Home extends AppCompatActivity {
     private DatabaseHandler database;
     private SessionManager session;
     private User user;
+    private String Keypush = null;
+    private static final String TAG = Home.class.getSimpleName();
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private View notificationBadge;
 
 
     @Override
@@ -84,6 +113,40 @@ public class Home extends AppCompatActivity {
         recherche_title_text.setSpan(new ForegroundColorSpan(res.getColor(R.color.colorPrimary)),0,menu_recherche.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         menu.findItem(R.id.recherche).setTitle(recherche_title_text);
         loadFragment(new Recherche());
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                // checking for type intent filter
+                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
+                    // gcm successfully registered
+                    // now subscribe to `global` topic to receive app wide notifications
+                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+
+                    displayFirebaseRegId();
+
+                }
+
+                if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                    // new push notification is received
+
+                    String message = intent.getStringExtra("message");
+
+                    Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+                    /*data.add(new Conversationprivateitem(user.getPHOTO(),R.drawable.arrow_bg1,
+                            editvalue.getText().toString(),bossdraw,context,R.drawable.arrow_bg2,
+                            PHOTO,message,bossdraw2,false,true));
+                    allUsersAdapter.notifyDataSetChanged();*/
+                }
+
+            }
+        };
+        displayFirebaseRegId();
+        //navigation.inflateMenu(R.menu.navigation);
+        //addBadgeView();
+        //BadgeDrawable badge = bottomNavigationView.showBadge(menuItemId);
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -198,13 +261,67 @@ public class Home extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void displayFirebaseRegId() {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
+        String regId = pref.getString("regId", null);
+        Log.e(TAG, "Firebase reg id: " + regId);
+        if(regId!=null)
+        {
+            Keypush = regId;
+            if(database.getUSER(Integer.valueOf(session.getUserDetail().get(SessionManager.Key_ID))).getKEYPUSH().length()<9){
+                Connexion();
+            }
+            //Toast.makeTxt(getApplicationContext(),"Firebase Reg Id: " + regId,Toast.LENGTH_LONG).show();
+        }
+
+        //Toast.makeText(getApplicationContext(),"Firebase Reg Id: " + regId,Toast.LENGTH_LONG).show();
+    }
+
+
+
+    private void Connexion()
+    {
+        String url_sendkey = Const.dns.concat("/colis/ColisApi/public/api/UpdateKeyPush?ID=").concat(String.valueOf(database.getUSER(Integer.valueOf(session.getUserDetail().get(SessionManager.Key_ID))).getID())).concat("&PUSHKEY=").concat(Keypush);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url_sendkey,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        database.UpdateKeyPush(database.getUSER(Integer.valueOf(session.getUserDetail().get(SessionManager.Key_ID))).getID(),Keypush);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.REGISTRATION_COMPLETE));
     }
 
     @Override
-    public void onPause() {
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
+
+
+
 }
