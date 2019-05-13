@@ -38,6 +38,7 @@ public class DetailsAnnonces extends AppCompatActivity {
     private TextView prix;
     private TextView heure_depart;
     private TextView heure_arrivee;
+    private TextView dateannonce2;
     private TextView poids;
     private TextView rdv1;
     private TextView rdv2;
@@ -61,6 +62,7 @@ public class DetailsAnnonces extends AppCompatActivity {
         ville_depart = findViewById(R.id.contenu);
         ville_arrivee = findViewById(R.id.contenu_ville_arrivee_block);
         dateannonce = findViewById(R.id.contenu_heure_depart);
+        dateannonce2 = findViewById(R.id.contenu_heure_depart2);
         prix = findViewById(R.id.contenu_heure_arrivee);
         heure_depart = findViewById(R.id.contenu_heure_depart_vrai);
         heure_arrivee = findViewById(R.id.contenu_heure_arrivee_vrai);
@@ -73,12 +75,13 @@ public class DetailsAnnonces extends AppCompatActivity {
         user_label_time.setText(annonce.getDATE_ANNONCE());
         ville_depart.setText(annonce.getVILLE_DEPART());
         ville_arrivee.setText(annonce.getVILLE_ARRIVEE());
-        dateannonce.setText(annonce.getDATE_ANNONCE_VOYAGE());
+        dateannonce.setText("Date de depart : "+annonce.getDATE_ANNONCE_VOYAGE());
+        dateannonce2.setText("Date d'arrivee : "+annonce.getDATE_ANNONCE_VOYAGE2());
         prix.setText(annonce.getPRIX()+" euros/Kg");
-        heure_depart.setText(annonce.getHEURE_DEPART());
-        heure_arrivee.setText(annonce.getHEURE_ARRIVEE());
-        rdv1.setText(annonce.getLIEUX_RDV1());
-        rdv2.setText(annonce.getLIEUX_RDV2());
+        heure_depart.setText("Heure de depart : "+annonce.getHEURE_DEPART());
+        heure_arrivee.setText("Heure d'arrivee : "+annonce.getHEURE_ARRIVEE());
+        rdv1.setText("rdv de depart : "+annonce.getLIEUX_RDV1());
+        rdv2.setText("rdv d'arrivee : "+annonce.getLIEUX_RDV2());
         poids.setText(annonce.getNOMBRE_KILO()+" Kg (max)");
         USER_DETAILS.setText("Plus de details sur "+annonce.getNOM_USER()+" ?");
         if(!annonce.getPHOTO_USER().equals("null")) {
@@ -119,7 +122,9 @@ public class DetailsAnnonces extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.check_annonce :
-                Toast.makeText(DetailsAnnonces.this,"Le check vient de se faire !!",Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(),PaymentList.class);
+                intent.putExtra("annonce",annonce);
+                startActivity(intent);
                 return true;
 
 

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,13 +26,22 @@
         </android.support.design.widget.AppBarLayout>
 
 
+        <ScrollView
+            android:layout_below="@+id/appbarlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/block_layout"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_below="@+id/appbarlayout"
             android:background="@color/graycolor"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
 
 
             <RelativeLayout
@@ -221,40 +231,8 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/heure_arrivee_block"
-                            android:layout_below="@+id/heure_depart_block"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="5dp"
-                            >
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/baseline_euro_symbol_black_24"
-                                android:tint="@color/colorPrimary"
-                                android:layout_gravity="center"
-                                />
-
-
-
-                            <android.support.v7.widget.AppCompatTextView
-                                android:id="@+id/contenu_heure_arrivee"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_gravity="center"
-                                android:text=""
-                                />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
                             android:id="@+id/heure_depart_vrai__block"
-                            android:layout_below="@+id/heure_arrivee_block"
+                            android:layout_below="@+id/heure_depart_block"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -285,8 +263,43 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/heure_arrivee_vrai_block"
+                            android:id="@+id/heure_depart_block2"
                             android:layout_below="@+id/heure_depart_vrai__block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_date_range_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/contenu_heure_depart2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text=""
+                                />
+
+
+                        </LinearLayout>
+
+
+
+
+                        <LinearLayout
+                            android:id="@+id/heure_arrivee_vrai_block"
+                            android:layout_below="@+id/heure_depart_block2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -317,8 +330,43 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/poids_vrai_block"
+                            android:id="@+id/heure_arrivee_block"
                             android:layout_below="@+id/heure_arrivee_vrai_block"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="5dp"
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_euro_symbol_black_24"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+
+
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/contenu_heure_arrivee"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="center"
+                                android:text=""
+                                />
+
+
+                        </LinearLayout>
+
+
+
+
+                        <LinearLayout
+                            android:id="@+id/poids_vrai_block"
+                            android:layout_below="@+id/heure_arrivee_block"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -490,22 +538,41 @@
                         android:background="@android:color/white"
                         />
 
-                    <TextView
-                        android:id="@+id/espace_details_annonceur4"
+                    <LinearLayout
+                        android:id="@+id/nom_block"
                         android:layout_below="@+id/espace_details_annonceur3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dip"
-                        android:layout_marginLeft="4dip"
-                        android:layout_marginRight="4dip"
-                        android:gravity="center"
-                        android:text=""
-                        android:background="@android:color/white"
-                        />
+                        android:layout_marginLeft="5dip"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/baseline_add_circle_outline_black_24"
+                            android:layout_gravity="center"
+                            android:tint="@color/colorPrimary"
+                            />
+
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/espace_details_annonceur4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center"
+                            android:text=""
+                            />
+
+                    </LinearLayout>
+
 
                     <View
                         android:id="@+id/espace_details_annonceur5"
-                        android:layout_below="@+id/espace_details_annonceur4"
+                        android:layout_below="@+id/nom_block"
                         android:layout_width="match_parent"
                         android:layout_height="1dip"
                         android:background="@color/graycolor"
@@ -531,7 +598,7 @@
 
         </RelativeLayout>
 
-
+        </ScrollView>
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

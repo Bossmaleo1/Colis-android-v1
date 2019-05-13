@@ -48,6 +48,14 @@
 
         </activity>
 
+        <activity android:name=".appviews.PaymentList" android:theme="@style/AppTheme2">
+
+        </activity>
+
+        <activity android:name=".appviews.Validation" android:theme="@style/AppTheme2">
+
+        </activity>
+
         <activity android:name=".connInscript.formInscript1" android:theme="@style/AppTheme2">
 
         </activity>

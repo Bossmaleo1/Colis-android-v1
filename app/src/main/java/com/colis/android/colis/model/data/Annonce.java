@@ -13,6 +13,8 @@ public class Annonce implements Parcelable {
     private String PHONE_USER;
     private String DATE_ANNONCE;
     private String DATE_ANNONCE_VOYAGE;
+    private String DATE_ANNONCE_VOYAGE2;
+    private String KEYPUSH;
     private String PRIX;
     private String LIEUX_RDV1;
     private String LIEUX_RDV2;
@@ -26,7 +28,7 @@ public class Annonce implements Parcelable {
     public Annonce(Context context,int ID,int ID_USER,String PHOTO_USER,String NOM_USER
             ,String PHONE_USER,String DATE_ANNONCE,String DATE_ANNONCE_VOYAGE,String PRIX
             ,String LIEUX_RDV1,String LIEUX_RDV2,String VILLE_DEPART,String VILLE_ARRIVEE,String HEURE_DEPART,String HEURE_ARRIVEE
-            ,String NOMBRE_KILO) {
+            ,String NOMBRE_KILO,String DATE_ANNONCE_VOYAGE2,String KEYPUSH) {
         this.context = context;
         this.ID = ID;
         this.ID_USER = ID_USER;
@@ -43,12 +45,14 @@ public class Annonce implements Parcelable {
         this.HEURE_DEPART = HEURE_DEPART;
         this.HEURE_ARRIVEE = HEURE_ARRIVEE;
         this.NOMBRE_KILO = NOMBRE_KILO;
+        this.DATE_ANNONCE_VOYAGE2 = DATE_ANNONCE_VOYAGE2;
+        this.KEYPUSH = KEYPUSH;
     }
 
     public Annonce(int ID,int ID_USER,String PHOTO_USER,String NOM_USER
             ,String PHONE_USER,String DATE_ANNONCE,String DATE_ANNONCE_VOYAGE,String PRIX
             ,String LIEUX_RDV1,String LIEUX_RDV2,String VILLE_DEPART,String VILLE_ARRIVEE,String HEURE_DEPART,String HEURE_ARRIVEE
-            ,String NOMBRE_KILO) {
+            ,String NOMBRE_KILO,String DATE_ANNONCE_VOYAGE2,String KEYPUSH) {
         this.ID = ID;
         this.ID_USER = ID_USER;
         this.PHOTO_USER = PHOTO_USER;
@@ -64,6 +68,8 @@ public class Annonce implements Parcelable {
         this.HEURE_DEPART = HEURE_DEPART;
         this.HEURE_ARRIVEE = HEURE_ARRIVEE;
         this.NOMBRE_KILO = NOMBRE_KILO;
+        this.DATE_ANNONCE_VOYAGE2 = DATE_ANNONCE_VOYAGE2;
+        this.KEYPUSH = KEYPUSH;
     }
 
     public Annonce(Parcel parcel){
@@ -82,6 +88,8 @@ public class Annonce implements Parcelable {
         this.HEURE_DEPART = parcel.readString();
         this.HEURE_ARRIVEE = parcel.readString();
         this.NOMBRE_KILO = parcel.readString();
+        this.DATE_ANNONCE_VOYAGE2 = parcel.readString();
+        this.KEYPUSH = parcel.readString();
     }
 
     public int getID() {
@@ -214,6 +222,22 @@ public class Annonce implements Parcelable {
         this.VILLE_ARRIVEE = VILLE_ARRIVEE;
     }
 
+    public String getDATE_ANNONCE_VOYAGE2() {
+        return DATE_ANNONCE_VOYAGE2;
+    }
+
+    public String getKEYPUSH() {
+        return KEYPUSH;
+    }
+
+    public void setDATE_ANNONCE_VOYAGE2(String DATE_ANNONCE_VOYAGE2) {
+        this.DATE_ANNONCE_VOYAGE2 = DATE_ANNONCE_VOYAGE2;
+    }
+
+    public void setKEYPUSH(String KEYPUSH) {
+        this.KEYPUSH = KEYPUSH;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -236,6 +260,8 @@ public class Annonce implements Parcelable {
         dest.writeString(HEURE_DEPART);
         dest.writeString(HEURE_ARRIVEE);
         dest.writeString(NOMBRE_KILO);
+        dest.writeString(DATE_ANNONCE_VOYAGE2);
+        dest.writeString(KEYPUSH);
     }
 
     public static final Parcelable.Creator<Annonce> CREATOR = new Parcelable.Creator<Annonce>(){
@@ -250,5 +276,6 @@ public class Annonce implements Parcelable {
             return new Annonce[0];
         }
     };
+
 
 }

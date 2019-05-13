@@ -61,6 +61,7 @@ public class Accueil extends Fragment{
     private int year;
     static final int DATE_DIALOG_ID = 999;
     private EditText date_annoonce;
+    private EditText date_annonce2;
     private EditText ville_depart;
     private EditText ville_darrivee;
     private EditText heure_depart;
@@ -76,11 +77,13 @@ public class Accueil extends Fragment{
     public static final int REQUEST_CODE = 11;
     public static final int REQUEST_CODE12 = 12;
     public static final int REQUEST_CODE13 = 13;
+    public static final int REQUEST_CODE14 = 16;
     public static final int REQUEST_CODE_DEPART = 14;
     public static final int REQUEST_CODE_ARRIVEE = 15;
-    String selectedDate;
-    String selectedDate1;
-    String selectedDate2;
+    private String selectedDate;
+    private String selectedDate1;
+    private String selectedDate2;
+    private String selectedDate14;
     private Accueil.OnFragmentInteractionListener mListener;
     private Snackbar snackbar;
     private ProgressDialog pDialog;
@@ -124,6 +127,7 @@ public class Accueil extends Fragment{
 
         coordinatorLayout = bossmaleo.findViewById(R.id.coordinatorLayout);
         date_annoonce = bossmaleo.findViewById(R.id.dateannonce);
+        date_annonce2 = bossmaleo.findViewById(R.id.dateannonce_arrivee);
         ville_depart = bossmaleo.findViewById(R.id.depart);
         ville_darrivee = bossmaleo.findViewById(R.id.arrivvee);
         heure_depart = bossmaleo.findViewById(R.id.heure_depart);
@@ -142,7 +146,7 @@ public class Accueil extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
-                intent.putExtra("title","Ville depart");
+                intent.putExtra("title","D'ou partez-vous ?!");
                 startActivityForResult(intent, REQUEST_CODE_DEPART);
             }
         });
@@ -151,7 +155,7 @@ public class Accueil extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
-                intent.putExtra("title","Ville d'arrivee");
+                intent.putExtra("title","Ou allez-vous?!");
                 startActivityForResult(intent, REQUEST_CODE_ARRIVEE);
             }
         });
@@ -160,7 +164,7 @@ public class Accueil extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchTown.class);
-                intent.putExtra("title","Ville depart");
+                intent.putExtra("title","D'ou partez-vous ?!");
                 startActivityForResult(intent, REQUEST_CODE_DEPART);
             }
         });
@@ -180,7 +184,7 @@ public class Accueil extends Fragment{
             public void onFocusChange(View view, boolean hasFocus) {
                 if (hasFocus) {
                     Intent intent = new Intent(getActivity(), SearchTown.class);
-                    intent.putExtra("title","Ville d'arrivee");
+                    intent.putExtra("title","Ou allez-vous?!");
                     startActivityForResult(intent, REQUEST_CODE_ARRIVEE);
                 }
             }
@@ -204,12 +208,35 @@ public class Accueil extends Fragment{
         date_annoonce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AppCompatDialogFragment newFragment = new DatePickerFragment();
+                newFragment.setTargetFragment(Accueil.this, REQUEST_CODE);
+                newFragment.show(fm, "datePicker");
+            }
+        });
+
+        date_annonce2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 // create the datePickerFragment
                 AppCompatDialogFragment newFragment = new DatePickerFragment();
                 // set the targetFragment to receive the results, specifying the request code
-                newFragment.setTargetFragment(Accueil.this, REQUEST_CODE);
+                newFragment.setTargetFragment(Accueil.this, REQUEST_CODE14);
                 // show the datePicker
                 newFragment.show(fm, "datePicker");
+            }
+        });
+
+        date_annonce2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    // create the datePickerFragment
+                    AppCompatDialogFragment newFragment = new DatePickerFragment();
+                    // set the targetFragment to receive the results, specifying the request code
+                    newFragment.setTargetFragment(Accueil.this, REQUEST_CODE);
+                    // show the datePicker
+                    newFragment.show(fm, "datePicker");
+                }
             }
         });
 
@@ -331,9 +358,13 @@ public class Accueil extends Fragment{
             ville_darrivee.setText(data.getStringExtra("ville"));
             idaeroportarrivee =  data.getIntExtra("id",0);
 
-        } else if(requestCode == REQUEST_CODE_DEPART && resultCode == Activity.RESULT_OK) {
+        }else if(requestCode == REQUEST_CODE_DEPART && resultCode == Activity.RESULT_OK) {
             ville_depart.setText(data.getStringExtra("ville"));
             idaeroportdepart = data.getIntExtra("id",0);
+        }else if(requestCode == REQUEST_CODE14 && resultCode == Activity.RESULT_OK) {
+            selectedDate14 = data.getStringExtra("selectedDate");
+            // set the value of the editText
+            date_annonce2.setText(selectedDate14);
         }
 
     }
@@ -363,6 +394,7 @@ public class Accueil extends Fragment{
         String _depart_voyage = ville_depart.getText().toString();
         String _arrivee_voyage = ville_darrivee.getText().toString();
         String _date_voyage = date_annoonce.getText().toString();
+        String _date_voyage2 = date_annonce2.getText().toString();
         String _heure_depart = heure_depart.getText().toString();
         String _heure_darrivee = heure_darrivee.getText().toString();
 
@@ -382,10 +414,16 @@ public class Accueil extends Fragment{
         }
 
         if (_date_voyage.isEmpty()) {
-            date_annoonce.setError("Veuillez remplir la date de voyage svp !");
+            date_annoonce.setError("Veuillez remplir la date de depart svp !");
             valid = false;
         }else {
             date_annoonce.setError(null);
+        }
+        if (_date_voyage2.isEmpty()) {
+            date_annonce2.setError("Veuillez remplir la date d'arrivee svp !");
+            valid = false;
+        }else {
+            date_annonce2.setError(null);
         }
 
         if (_heure_depart.isEmpty()) {
@@ -456,11 +494,13 @@ public class Accueil extends Fragment{
         String dateannonce = String.valueOf(date_annoonce.getText().toString()).split("-")[2]+"-"
                 +String.valueOf(date_annoonce.getText().toString()).split("-")[1]+"-"
                 +String.valueOf(date_annoonce.getText().toString()).split("-")[0];
-        String Url = Const.dns+"/colis/ColisApi/public/api/InsertAnnonce?heure_depart="+String.valueOf(heure_darrivee.getText().toString())+
+        String Url = Const.dns+"/colis/ColisApi/public/api/InsertAnnonce?heure_depart="+String.valueOf(heure_depart.getText().toString())+
                 "&heure_arrivee="+String.valueOf(heure_darrivee.getText().toString())+"&max_kilo="+String.valueOf(poids.getText().toString())+
                 "&lieux_rdv1="+String.valueOf(Lieux_rdv1.getText().toString())+"&lieux_rdv2="+String.valueOf(Lieux_rdv2.getText().toString())
-                +"&dateannonce="+dateannonce+"&id_user="+user.getID()+"&id_aeroport1="+String.valueOf(idaeroportdepart)+"&id_aeroport2="+String.valueOf(idaeroportarrivee)
-                +"&prix="+String.valueOf(prix_transaction.getText().toString());
+                +"&dateannonce="+dateannonce+"&id_user="+user.getID()+"&id_aeroport1="+String.valueOf(idaeroportdepart)
+                +"&id_aeroport2="+String.valueOf(idaeroportarrivee)
+                +"&prix="+String.valueOf(prix_transaction.getText().toString()
+                +"&dateannonce2="+selectedDate14);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url,
                 new Response.Listener<String>() {
                     @Override
@@ -533,6 +573,8 @@ public class Accueil extends Fragment{
                 poids.setText("");
                 heure_depart.setText("");
                 heure_darrivee.setText("");
+                Lieux_rdv1.setText("");
+                Lieux_rdv2.setText("");
             }
 
 

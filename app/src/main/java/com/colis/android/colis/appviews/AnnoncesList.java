@@ -230,7 +230,7 @@ public class AnnoncesList extends AppCompatActivity implements SwipeRefreshLayou
                                         object.getString("PHOTO_USER"),object.getString("NOM_USER"),object.getString("PHONE_USER"),
                                         object.getString("DATE_ANNONCE"),object.getString("DATE_ANNONCE_VOYAGE"),object.getString("Prix"),
                                         object.getString("lieux_rdv1"),object.getString("lieux_rdv2"),object.getString("ville_depart"),object.getString("ville_arrivee"),object.getString("heure_depart"),
-                                        object.getString("heure_darrivee"),object.getString("nombre_kilo"));
+                                        object.getString("heure_darrivee"),object.getString("nombre_kilo"),object.getString("DATE_ANNONCE_VOYAGE2"),object.getString("KEYPUSH"));
                                 data.add(annonceItem);
                             }
 

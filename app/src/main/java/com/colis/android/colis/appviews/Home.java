@@ -1,36 +1,37 @@
 package com.colis.android.colis.appviews;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -49,6 +50,7 @@ import com.colis.android.colis.model.Const;
 import com.colis.android.colis.model.Database.SessionManager;
 import com.colis.android.colis.model.dao.DatabaseHandler;
 import com.colis.android.colis.model.data.User;
+import com.colis.android.colis.utils.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
@@ -78,6 +80,9 @@ public class Home extends AppCompatActivity {
     private static final String TAG = Home.class.getSimpleName();
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private View notificationBadge;
+    private TextView textCartItemCount;
+    public static final String REQUEST_CODE12 = "12";
+    int mCartItemCount = 0;
 
 
     @Override
@@ -98,7 +103,7 @@ public class Home extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         menu = navigation.getMenu();
         newIcon_home = res.getDrawable(R.drawable.baseline_flight_black_24);
-        newIcon_notification = res.getDrawable(R.drawable.ic_notifications_black_24dp);
+        newIcon_notification = res.getDrawable(R.drawable.baseline_check_circle_black_24);
         newIcon_search = res.getDrawable(R.drawable.baseline_search_black_24);
 
         newIcon_search.mutate().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
@@ -106,7 +111,7 @@ public class Home extends AppCompatActivity {
 
         menu_accueil = "Ajouter Annonce";
         menu_recherche = "Recherche";
-        menu_notification = "Notifications";
+        menu_notification = "Validations";
         accueil_title_text = new SpannableString(menu_accueil);
         recherche_title_text = new SpannableString(menu_recherche);
         notification_text = new SpannableString(menu_notification);
@@ -126,22 +131,38 @@ public class Home extends AppCompatActivity {
 
                     displayFirebaseRegId();
 
-                }
-
-                if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
+                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
                     // new push notification is received
 
                     String message = intent.getStringExtra("message");
 
-                    Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
-                    /*data.add(new Conversationprivateitem(user.getPHOTO(),R.drawable.arrow_bg1,
-                            editvalue.getText().toString(),bossdraw,context,R.drawable.arrow_bg2,
-                            PHOTO,message,bossdraw2,false,true));
-                    allUsersAdapter.notifyDataSetChanged();*/
-                }
+                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), REQUEST_CODE12)
+                            .setSmallIcon(R.drawable.colis_1)
+                            .setContentTitle("Colis")
+                            .setContentText("Hello bossmaleo")
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
+                    Intent intent2 = new Intent(getApplicationContext(), Home.class);
+                    PendingIntent pi = PendingIntent.getActivity(getApplicationContext(),0,intent2,Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mBuilder.setContentIntent(pi);
+                    NotificationManager mNotificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mNotificationManager.notify(0, mBuilder.build());
+
+                    //Intent intent1 = new Intent(getApplicationContext(),Home.class);
+
+                    /*NotificationCompat.Builder mBuilder =
+                            new NotificationCompat.Builder(this)
+                                    .setSmallIcon(R.drawable.colis_1)
+                                    .setContentTitle("My notification")
+                                    .setContentText("Hello World!")
+                                    .setContentIntent(intent1);*/
+
+                }
             }
         };
+
         displayFirebaseRegId();
         //navigation.inflateMenu(R.menu.navigation);
         //addBadgeView();
@@ -244,6 +265,24 @@ public class Home extends AppCompatActivity {
         favoriteItem.setIcon(newIcon);
         favoriteItem1.setIcon(newIcon1);
         favoriteItem2.setIcon(newIcon2);*/
+        final MenuItem menuItem = menu.findItem(R.id.notification);
+
+        View actionView = MenuItemCompat.getActionView(menuItem);
+        textCartItemCount =  actionView.findViewById(R.id.cart_badge);
+
+        setupBadge();
+
+        actionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(menuItem);
+            }
+        });
+
+        MenuItem favoriteItem = menu.findItem(R.id.notification);
+        Drawable newIcon = (Drawable)favoriteItem.getIcon();
+        newIcon.mutate().setColorFilter(Color.rgb(255, 255, 255), PorterDuff.Mode.SRC_IN);
+        favoriteItem.setIcon(newIcon);
         return true;
     }
 
@@ -257,6 +296,10 @@ public class Home extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
                 return true;
+            case R.id.notification: {
+                // Do something
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -314,12 +357,35 @@ public class Home extends AppCompatActivity {
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(Config.REGISTRATION_COMPLETE));
+        // by doing this, the activity will be notified each time a new message arrives
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(Config.PUSH_NOTIFICATION));
+
+        // clear the notification area when the app is opened
+        NotificationUtils.clearNotifications(getApplicationContext());
+
     }
 
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
+    }
+
+    private void setupBadge() {
+
+        if (textCartItemCount != null) {
+            if (mCartItemCount == 0) {
+                if (textCartItemCount.getVisibility() != View.GONE) {
+                    textCartItemCount.setVisibility(View.GONE);
+                }
+            } else {
+                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
+                if (textCartItemCount.getVisibility() != View.VISIBLE) {
+                    textCartItemCount.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 
 

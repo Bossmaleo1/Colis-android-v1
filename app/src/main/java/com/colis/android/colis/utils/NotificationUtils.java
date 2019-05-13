@@ -39,9 +39,9 @@ import java.util.List;
 public class NotificationUtils {
 
     private static String TAG = NotificationUtils.class.getSimpleName();
+    public static final String REQUEST_CODE12 = "12";
 
     private Context mContext;
-    private DatabaseHandler database;
 
     public NotificationUtils(Context mContext) {
         this.mContext = mContext;
@@ -58,7 +58,7 @@ public class NotificationUtils {
 
 
         // notification icon
-        final int icon = R.drawable.colis_1;
+        final int icon = R.mipmap.ic_launcher;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent =
@@ -70,10 +70,14 @@ public class NotificationUtils {
                 );
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                mContext);
+                mContext,REQUEST_CODE12);
+
+
 
         final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + mContext.getPackageName() + "/raw/notification");
+        showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
+        playNotificationSound();
 
         if (!TextUtils.isEmpty(imageUrl)) {
 
@@ -100,7 +104,6 @@ public class NotificationUtils {
 
         inboxStyle.addLine(message);
 
-
         Notification notification;
         notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
                 .setAutoCancel(true)
@@ -113,8 +116,6 @@ public class NotificationUtils {
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
                 .build();
-
-        database = new DatabaseHandler(mContext);
 
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(Config.NOTIFICATION_ID, notification);

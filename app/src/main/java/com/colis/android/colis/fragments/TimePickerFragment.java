@@ -53,7 +53,7 @@ public class TimePickerFragment extends AppCompatDialogFragment implements TimeP
         c.set(Calendar.HOUR, hourOfDay);
         c.set(Calendar.MINUTE, minute);
 
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm",Locale.FRENCH);
 
         String selectedDate = format.format(c.getTime());
         getTargetFragment().onActivityResult(

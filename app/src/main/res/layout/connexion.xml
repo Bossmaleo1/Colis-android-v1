@@ -58,7 +58,6 @@
                 >
 
 
-
                 <LinearLayout
                     android:id="@+id/email_block"
                     android:layout_width="match_parent"
@@ -83,6 +82,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/password_block"

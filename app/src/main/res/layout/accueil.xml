@@ -78,9 +78,38 @@
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/date_annonce_block"
+                android:layout_below="@+id/password_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_date_range_black_24"
+                    android:tint="@color/colorPrimary"
+                    android:layout_gravity="center"
+                    />
+
+                <EditText
+                    android:id="@+id/dateannonce"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Date de depart"
+                    android:inputType="date"
+                    android:focusable="false"
+                    />
+
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/heure_depart_block"
-                android:layout_below="@+id/password_block"
+                android:layout_below="@+id/date_annonce_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -110,8 +139,37 @@
 
 
             <LinearLayout
-                android:id="@+id/heure_arrivee_block"
+                android:id="@+id/date_annonce_block_arrivee"
                 android:layout_below="@+id/heure_depart_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_date_range_black_24"
+                    android:tint="@color/colorPrimary"
+                    android:layout_gravity="center"
+                    />
+
+                <EditText
+                    android:id="@+id/dateannonce_arrivee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Date d'arrivee"
+                    android:inputType="date"
+                    android:focusable="false"
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/heure_arrivee_block"
+                android:layout_below="@+id/date_annonce_block_arrivee"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -139,38 +197,12 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/date_annonce_block"
-                android:layout_below="@+id/heure_arrivee_block"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp"
-                >
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_date_range_black_24"
-                    android:tint="@color/colorPrimary"
-                    android:layout_gravity="center"
-                    />
-
-                <EditText
-                    android:id="@+id/dateannonce"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Date du voyage"
-                    android:inputType="date"
-                    android:focusable="false"
-                    />
-
-            </LinearLayout>
 
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/ajouter1"
-                android:layout_below="@+id/date_annonce_block"
+                android:layout_below="@+id/heure_arrivee_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="SUIVANT"
@@ -219,7 +251,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Lieux du rdv de depart"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     />
 
 
@@ -249,7 +281,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Lieux du rdv d'arrivee"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     />
 
 
@@ -279,7 +311,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Prix/Kg"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     />
 
 
@@ -309,7 +341,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre de kilos (maximum)"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     />
 
 
