@@ -31,7 +31,10 @@ import com.android.volley.toolbox.Volley;
 import com.colis.android.colis.R;
 import com.colis.android.colis.connInscript.formInscriptSms;
 import com.colis.android.colis.model.Const;
+import com.colis.android.colis.model.Database.SessionManager;
+import com.colis.android.colis.model.dao.DatabaseHandler;
 import com.colis.android.colis.model.data.Annonce;
+import com.colis.android.colis.model.data.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,6 +63,9 @@ public class Validation extends AppCompatActivity {
     private RelativeLayout block;
     private Intent intent;
     private Annonce annonce;
+    private DatabaseHandler database;
+    private SessionManager session;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,9 @@ public class Validation extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        database = new DatabaseHandler(this);
+        session = new SessionManager(this);
+        user = database.getUSER(Integer.valueOf(session.getUserDetail().get(SessionManager.Key_ID)));
         getSupportActionBar().setTitle("PAIEMENT");
         validation = findViewById(R.id.send);
         validation_image = findViewById(R.id.validation_maleo);
@@ -244,9 +253,9 @@ public class Validation extends AppCompatActivity {
 
     private void volley_de_sms_notification()
     {
-        String message_envoyer = "Vous vener de recevoir une demande de transport de colis de l'utilisateur "+annonce.getNOM_USER()+" veuillez accepter ou refuser cette demande sur l'application";
+        String message = "L'utilisateur "+user.getPRENOM()+" "+user.getNOM()+" vous effetuez une demande d'expedition de son colis";
         String url_connexion = "https://api.smsbox.fr/api.php?apikey=pub-ad1746a3c1fa0266937010c56e18e0b0-7dd7c66d-e54b-4b17-9c1d-73c4215482c1&msg="+
-                message_envoyer+"&dest=" +
+                message+"&dest=" +
                 String.valueOf(annonce.getPHONE_USER())+"&mode=Expert";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url_connexion,
@@ -276,9 +285,9 @@ public class Validation extends AppCompatActivity {
 
     private void volley_de_fcm_notification()
     {
-        String message = "Vous vener de recevoir une demande de transport de colis de l'utilisateur "+annonce.getNOM_USER()+" veuillez accepter ou refuser cette demande sur l'application";
-        String url_envoie =  Const.dns+"/colis/Apifcm/apiFCM.php?push_type=individual&regId="+String.valueOf(annonce.getKEYPUSH())+"&title="+message
-            +"&description="+String.valueOf(Description.getText().toString());
+        String message = "L'utilisateur "+user.getPRENOM()+" "+user.getNOM()+" vous effetuez une demande d'expedition de son colis";
+        String url_envoie =  Const.dns+"/colis/Apifcm/apiFCM.php?push_type=individual&regId="+String.valueOf(annonce.getKEYPUSH())+"&message="+message
+            +"&title=Colis";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url_envoie,
                 new Response.Listener<String>() {
                     @Override
@@ -308,10 +317,11 @@ public class Validation extends AppCompatActivity {
 
     private void VALIDATION_ANNONCE()
     {
+        String message = "L'utilisateur "+user.getPRENOM()+" "+user.getNOM()+" vous effetuez une demande d'expedition de son colis";
         block.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-        String Url = Const.dns+"/colis/ColisApi/public/api/ValidationAnnonce?poids="+String.valueOf(poids.getText().toString())
-                +"&description="+String.valueOf(Description.getText().toString())+"&ID_ANNONCE="+String.valueOf(annonce.getID())+"&ID_USER="+annonce.getID_USER();
+        String Url = Const.dns+"/colis/ColisApi/public/api/InsertValidation?nombrekilo="+String.valueOf(poids.getText().toString())
+                +"&description="+String.valueOf(Description.getText().toString())+"&id_annonce="+String.valueOf(annonce.getID())+"&id_emmetteur="+user.getID()+"&libelle="+message;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url,
                 new Response.Listener<String>() {
                     @Override

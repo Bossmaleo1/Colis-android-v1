@@ -300,6 +300,10 @@ public class Home extends AppCompatActivity {
                 // Do something
                 return true;
             }
+            case R.id.profil:
+                Intent intent = new Intent(getApplicationContext(),Profil.class);
+                startActivity(intent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

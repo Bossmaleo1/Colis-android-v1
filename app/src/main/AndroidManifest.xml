@@ -36,6 +36,10 @@
 
         </activity>
 
+        <activity android:name=".appviews.Profil" android:theme="@style/AppTheme2">
+
+        </activity>
+
         <activity android:name=".appviews.AnnoncesList" android:theme="@style/AppTheme2">
 
         </activity>

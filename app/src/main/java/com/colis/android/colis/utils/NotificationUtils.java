@@ -33,13 +33,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.colis.android.colis.appviews.Home.REQUEST_CODE12;
+
 /**
  * Created by Ravi on 31/03/15.
  */
 public class NotificationUtils {
 
     private static String TAG = NotificationUtils.class.getSimpleName();
-    public static final String REQUEST_CODE12 = "12";
 
     private Context mContext;
 
@@ -72,12 +73,8 @@ public class NotificationUtils {
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 mContext,REQUEST_CODE12);
 
-
-
         final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + mContext.getPackageName() + "/raw/notification");
-        showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
-        playNotificationSound();
 
         if (!TextUtils.isEmpty(imageUrl)) {
 
