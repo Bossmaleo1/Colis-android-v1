@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:emojicon="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/user_first_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/graycolor"
+        android:padding="10dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_menu_message_public"
+            android:layout_gravity="center"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/block1"
+                >
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/iconetmachin"
+                    >
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@drawable/ic_profile_colorier"
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/block"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_toRightOf="@id/icon"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="4dp"
+                        >
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="10dp"
+                            />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_below="@+id/iconetmachin"
+                    android:id="@+id/viewbis3"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@android:color/transparent"
+                    />
+
+
+                <View
+                    android:layout_below="@+id/viewbis3"
+                    android:id="@+id/ville_depart"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/graycolor"
+                    />
+
+
+
+                <LinearLayout
+                    android:id="@+id/ville_depart_block"
+                    android:layout_below="@+id/ville_depart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_speaker_notes_black_24"
+                        android:tint="@color/colorPrimary"
+                        android:layout_gravity="center"
+                        />
+
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/contenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        emojicon:emojiconSize="28sp"
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/heure_depart_block"
+                    android:layout_below="@+id/ville_depart_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_local_parking_black_24"
+                        android:tint="@color/colorPrimary"
+                        android:layout_gravity="center"
+                        />
+
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/contenu_ville_arrivee_block"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        emojicon:emojiconSize="28sp"
+                        />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/telephone_block"
+                    android:layout_below="@+id/heure_depart_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_call_black_24"
+                        android:tint="@color/colorPrimary"
+                        android:layout_gravity="center"
+                        />
+
+
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/telephone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center"
+                        emojicon:emojiconSize="28sp"
+                        />
+
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/heure_arrivee_block"
+                    android:layout_below="@+id/telephone_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    >
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/send"
+                        android:layout_below="@+id/nom_proprietaire_block"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="VALIDER"
+                        android:background="@color/colorPrimary"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@android:color/white"
+                        />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/send2"
+                        android:layout_below="@+id/nom_proprietaire_block"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="ANNULER"
+                        android:background="@android:color/holo_red_dark"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@android:color/white"
+                        />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_below="@+id/heure_arrivee_block"
+                    android:id="@+id/trace_separation"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@android:color/white"
+                    />
+
+                <View
+                    android:layout_below="@+id/trace_separation"
+                    android:id="@+id/viewbis18"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/graycolor"
+                    />
+
+                <View
+                    android:layout_below="@+id/viewbis18"
+                    android:id="@+id/trace_separation2"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dip"
+                    android:layout_marginLeft="4dip"
+                    android:layout_marginRight="4dip"
+                    android:background="@android:color/white"
+                    />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

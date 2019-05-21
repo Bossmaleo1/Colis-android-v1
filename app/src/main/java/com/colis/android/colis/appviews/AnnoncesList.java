@@ -16,6 +16,7 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -66,6 +67,7 @@ public class AnnoncesList extends AppCompatActivity implements SwipeRefreshLayou
     private Toolbar toolbar;
     private Intent intent93;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView message_error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class AnnoncesList extends AppCompatActivity implements SwipeRefreshLayou
         session = new SessionManager(this);
         database = new DatabaseHandler(this);
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        message_error = findViewById(R.id.message_error);
         coordinatorLayout =  findViewById(R.id.coordinatorLayout);
         recyclerView = findViewById(R.id.my_recycler_view);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
@@ -244,6 +247,12 @@ public class AnnoncesList extends AppCompatActivity implements SwipeRefreshLayou
                         allUsersAdapter.notifyDataSetChanged();
                         mShimmerViewContainer.stopShimmerAnimation();
                         mShimmerViewContainer.setVisibility(View.GONE);
+
+                        if (data.size() == 0) {
+                            message_error.setVisibility(View.VISIBLE);
+                        }else {
+                            message_error.setVisibility(View.GONE);
+                        }
 
                     }
                 },

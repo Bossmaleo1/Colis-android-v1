@@ -91,6 +91,9 @@ public class Validation extends AppCompatActivity {
         progressBar = findViewById(R.id.progressbar);
         block = findViewById(R.id.block);
         annonce = intent.getParcelableExtra("annonce");
+        dateexpiration.setText("09-2019");
+        numero_carte_derriere.setText("854");
+        numero_carte.setText("5860-4024-5627-1523");
 
         validation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,14 +107,15 @@ public class Validation extends AppCompatActivity {
         addListenerOnButton();
         setCurrentDateOnView();
 
-
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent();
+        /*Intent i = new Intent();
         setResult(RESULT_OK, i);
-        finish();
+        finish();*/
+        Intent intent = new Intent(getApplicationContext(),Home.class);
+        startActivity(intent);
     }
 
     @Override
@@ -119,9 +123,11 @@ public class Validation extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // User chose the "Settings" item, show the app settings UI...
-                Intent i = new Intent();
+                /*Intent i = new Intent();
                 setResult(RESULT_OK, i);
-                finish();
+                finish();*/
+                Intent intent = new Intent(getApplicationContext(),Home.class);
+                startActivity(intent);
                 return true;
 
 

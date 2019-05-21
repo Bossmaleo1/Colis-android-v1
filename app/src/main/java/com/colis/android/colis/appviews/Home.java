@@ -53,6 +53,9 @@ import com.colis.android.colis.model.data.User;
 import com.colis.android.colis.utils.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,6 +85,7 @@ public class Home extends AppCompatActivity {
     private View notificationBadge;
     private TextView textCartItemCount;
     public static final String REQUEST_CODE12 = "12";
+    private JSONObject reponse;
     int mCartItemCount = 0;
 
 
@@ -100,6 +104,7 @@ public class Home extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         this.getSupportActionBar().setTitle("Colis");
         navigation =  findViewById(R.id.navigation);
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         menu = navigation.getMenu();
         newIcon_home = res.getDrawable(R.drawable.baseline_flight_black_24);
@@ -164,6 +169,7 @@ public class Home extends AppCompatActivity {
         };
 
         displayFirebaseRegId();
+        CountNotification();
         //navigation.inflateMenu(R.menu.navigation);
         //addBadgeView();
         //BadgeDrawable badge = bottomNavigationView.showBadge(menuItemId);
@@ -356,6 +362,42 @@ public class Home extends AppCompatActivity {
     }
 
 
+    private void CountNotification()
+    {
+        String url_sendkey = Const.dns.concat("/colis/ColisApi/public/api/AfficherCountNotification?ID_USER=").concat(String.valueOf(database.getUSER(Integer.valueOf(session.getUserDetail().get(SessionManager.Key_ID))).getID()));
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url_sendkey,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            reponse = new JSONObject(response);
+                            mCartItemCount = reponse.getInt("count_notification");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+
+                    }
+                }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -391,6 +433,8 @@ public class Home extends AppCompatActivity {
             }
         }
     }
+
+
 
 
 

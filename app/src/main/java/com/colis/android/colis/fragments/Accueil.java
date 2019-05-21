@@ -282,15 +282,15 @@ public class Accueil extends Fragment{
 
 
         heure_darrivee.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // create the datePickerFragment
-                        AppCompatDialogFragment newFragment = new TimePickerFragment();
-                        // set the targetFragment to receive the results, specifying the request code
-                        newFragment.setTargetFragment(Accueil.this, REQUEST_CODE13);
-                        // show the datePicker
-                        newFragment.show(fm, "selectedTime");
-                    }
+            @Override
+            public void onClick(View v) {
+                // create the datePickerFragment
+                AppCompatDialogFragment newFragment = new TimePickerFragment();
+                // set the targetFragment to receive the results, specifying the request code
+                newFragment.setTargetFragment(Accueil.this, REQUEST_CODE13);
+                // show the datePicker
+                newFragment.show(fm, "selectedTime");
+            }
         });
 
         Suivant.setOnClickListener(new View.OnClickListener() {
